@@ -9,7 +9,7 @@ V_PYTHON=$(VE_DIR)/bin/python
 
 initdev:
 	apt install $(PY_VENV_PACKAGE) -y
-	apt install python-pytest -y
+	pip install -U pytest
 	$(PYTHON) -m venv $(VE_DIR)
 	$(V_PYTHON) -m pip install flake8 pylint
 	@printf "\nDev environment is ready.\n"
