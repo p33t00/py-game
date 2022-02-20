@@ -3,9 +3,9 @@ import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__)+"/.."))
 
-from IntelligenceAdvanced import IntelligenceAdvanced
+from IntelligenceHigh import IntelligenceHigh
 
-class TestIntelligenceAdvanced:
+class TestIntelligenceHigh:
     WINNER_SCORE = 100
     
     '''player_score, bot_score, turn_total_score, turn_roll_num'''
@@ -47,7 +47,7 @@ class TestIntelligenceAdvanced:
         
     @pytest.fixture(autouse=True, scope='function')
     def intelligence(self):
-        i = IntelligenceAdvanced(self.WINNER_SCORE)
+        i = IntelligenceHigh(self.WINNER_SCORE)
         return i
             
     @pytest.fixture(params=[(74, False),(94, True),(98, True)])

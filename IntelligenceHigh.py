@@ -1,4 +1,4 @@
-class IntelligenceAdvanced():
+class IntelligenceHigh():
     _optimal_turn_score = 17
     _max_turn_roll = 5
     
