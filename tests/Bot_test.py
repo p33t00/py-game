@@ -10,9 +10,9 @@ class TestBot():
     def test_roll_again(self, bot):
         decision = bot.roll_again(0,0,0,0)
         assert type(decision) == bool
-        assert decision == True
-    
+        assert decision is True or decision is False
+
+
     @pytest.fixture(autouse=True, scope='function')
     def bot(self):
-        i = Bot('Computer', IntelligenceLow())
-        return i
+        return Bot('Computer', IntelligenceLow())

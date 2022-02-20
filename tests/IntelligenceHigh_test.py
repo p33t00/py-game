@@ -1,6 +1,7 @@
 import sys, os
 import pytest
 
+# is there a better solution than below ?
 sys.path.append(os.path.realpath(os.path.dirname(__file__)+"/.."))
 
 from IntelligenceHigh import IntelligenceHigh
@@ -47,8 +48,7 @@ class TestIntelligenceHigh:
         
     @pytest.fixture(autouse=True, scope='function')
     def intelligence(self):
-        i = IntelligenceHigh(self.WINNER_SCORE)
-        return i
+        return IntelligenceHigh(self.WINNER_SCORE)
             
     @pytest.fixture(params=[(74, False),(94, True),(98, True)])
     def participant_score(self, request):
