@@ -1,0 +1,7 @@
+[flake8]
+exclude = .git __pycache__ tests/pytests/__pycache__
+max-complexity = 9
+max-line-length = 100
+
+# ignored E402 because had to insert a root path into _test files
+ignore = E402

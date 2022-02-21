@@ -3,20 +3,21 @@ PYTHON ?= python
 VE_DIR=.venv
 PY_VENV_PACKAGE = `$(PYTHON) --version | cut -d . -f 1,2 | tr -d ' ' | tr '[:upper:]' '[:lower:]'`-venv
 V_PYTHON=$(VE_DIR)/bin/python
-# SHELL:=/bin/bash
-# .ONESHELL:
-# .PHONY: initdev
+
+installvenv:
+	apt install $(PY_VENV_PACKAGE) -y
 
 initdev:
-	apt install $(PY_VENV_PACKAGE) -y
-	pip install -U pytest
 	$(PYTHON) -m venv $(VE_DIR)
-	$(V_PYTHON) -m pip install flake8 pylint
-	@printf "\nDev environment is ready.\n"
+	$(V_PYTHON) -m pip install -U pytest flake8 pylint black coverage
+	@printf "\nDev environment is ready to use.\n"
 	@printf "Run \"source $(VE_DIR)/bin/activate\" to activate virt env\n"
 
 check:
 	@printf $(PY_VENV_PACKAGE)
 
-clean:
-	rm -rf .venv
+clearall:
+	rm -rf .venv __pycache__ .pytest_cache tests/pytests/__pycache__ tests/pytests/.pytest_cache
+
+clearcache:
+	rm -rf __pycache__ .pytest_cache tests/pytests/__pycache__ tests/pytests/.pytest_cache
