@@ -1,0 +1,1 @@
+WINNER_SCORE = 100

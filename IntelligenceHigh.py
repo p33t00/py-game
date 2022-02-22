@@ -1,27 +1,33 @@
-class IntelligenceHigh:
-    _optimal_turn_score = 17
-    _max_turn_roll = 5
+from Intelligence import Intelligence
 
-    _winner_score = 0
-    _almost_win_score = 0
+
+class IntelligenceHigh(Intelligence):
+    __optimal_turn_score = 15
+    __max_turn_roll = 5
+
+    __almost_win_score = 0
 
     def __init__(self, winner_score):
-        self.winner_score = winner_score
+        super().__init__(winner_score)
+        # self.winner_score = winner_score
         self.almost_win_score = winner_score - 10
 
     def get_almost_win_score(self) -> int:
         return self.almost_win_score
 
     def get_optimal_turn_score(self):
-        return self._optimal_turn_score
+        return self.__optimal_turn_score
 
     def get_max_turn_roll(self):
-        return self._max_turn_roll
+        return self.__max_turn_roll
 
     def should_roll(
         self, player_score, bot_score, turn_total_score, turn_roll_num
     ) -> bool:
         """Determine whether it is optimal to roll again"""
+        if self.is_winner_score(turn_total_score + bot_score):
+            return False
+
         return (
             self.is_player_final_roll(player_score)
             or self.is_bot_final_roll(turn_total_score, bot_score)

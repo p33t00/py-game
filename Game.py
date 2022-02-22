@@ -18,6 +18,13 @@ class Game:
     # TODO : CHECK HOW CONSTANTS ARE DEFINED
     __WINNER_SCORE = 100
     __turn_total_score = 0
+    __turn_roll_num = 0
+
+    def get_winner_score(self):
+        return self.__WINNER_SCORE
+    
+    def get_turn_roll_num(self):
+        return self.__turn_roll_num
 
     def get_turn_total_score(self):
         return self.__turn_total_score
@@ -27,10 +34,11 @@ class Game:
 
     def inc_turn_total_score(self, add):
         self.set_turn_total_score(self.get_turn_total_score() + add)
-        return self.get_turn_total_score()
 
     def reset_turn_total_score(self):
         self.set_turn_total_score(0)
+        self.reset_turn_roll_num()
+        return self
 
     def roll_dice(self):
         points = randint(1, 6)
@@ -38,6 +46,8 @@ class Game:
             self.reset_turn_total_score()
         else:
             self.inc_turn_total_score(points)
+            
+        self.inc_turn_roll_num()
         return points
 
     def stop(self, participant):
@@ -46,3 +56,10 @@ class Game:
 
     def has_won(self, participant):
         return participant.get_total_points() >= self.__WINNER_SCORE
+
+    def inc_turn_roll_num(self):
+        self.__turn_roll_num += 1
+
+    def reset_turn_roll_num(self):
+        self.__turn_roll_num = 0
+        return self

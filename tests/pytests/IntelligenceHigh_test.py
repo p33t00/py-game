@@ -5,13 +5,12 @@ import pytest
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
 from IntelligenceHigh import IntelligenceHigh
+from constants import WINNER_SCORE
 
 
 class TestIntelligenceHigh:
-    WINNER_SCORE = 100
 
     """player_score, bot_score, turn_total_score, turn_roll_num"""
-
     @pytest.mark.parametrize(
         "should_roll_args",
         [
@@ -21,6 +20,7 @@ class TestIntelligenceHigh:
             (87, 79, 17, 3, True),  # optimal turn score
             (87, 79, 10, 5, True),  # max turn roll score
             (37, 29, 26, 7, False),  # finish turn
+            (77, 87, 18, 3, False),  # winning score
         ],
     )
     def test_should_roll(self, intelligence, should_roll_args):
@@ -62,7 +62,7 @@ class TestIntelligenceHigh:
 
     @pytest.fixture(autouse=True, scope="function")
     def intelligence(self):
-        return IntelligenceHigh(self.WINNER_SCORE)
+        return IntelligenceHigh(WINNER_SCORE)
 
     @pytest.fixture(params=[(74, False), (94, True), (98, True)])
     def participant_score(self, request):

@@ -1,6 +1,6 @@
 class Participant:
     __total_points = 0
-    __name = "default"
+    __name = 'default'
 
     def __init__(self, name):
         self.__name = name
@@ -9,7 +9,6 @@ class Participant:
         return self.__total_points
 
     def get_name(self):
-
         return self.__name
 
     def reset_total_points(self):
@@ -17,3 +16,6 @@ class Participant:
 
     def add_points(self, points):
         self.__total_points += points
+
+    def set_total_points(self, total):
+        self.__total_points = total

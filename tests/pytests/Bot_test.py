@@ -16,4 +16,4 @@ class TestBot:
 
     @pytest.fixture(autouse=True, scope="function")
     def bot(self):
-        return Bot("Computer", IntelligenceLow())
+        return Bot("Computer", IntelligenceLow(None))

@@ -16,4 +16,4 @@ class TestIntelligenceLow:
 
     @pytest.fixture(scope="function", autouse=True)
     def intelligence(self):
-        return IntelligenceLow()
+        return IntelligenceLow(None)
