@@ -59,8 +59,8 @@ class UI(Cmd):
         if not self.get_game():
             self.do_start(arg)
         points = self.get_dice().roll()
-        # print(f"you got {points}")
         print(self.get_picto_dice(points))
+
         if points == 1:
             self.do_stop("")
 
@@ -112,7 +112,7 @@ class UI(Cmd):
     def get_player(self):
         return self.__player
 
-    # refactor this. maybe __intelligence will not be needed
+# refactor this. maybe __intelligence will not be needed
     def get_intelligence(
         self, idx: int, win_score: int
     ) -> IntelligenceHigh or IntelligenceLow:
@@ -127,7 +127,6 @@ class UI(Cmd):
     def bot_play(self, dice, bot, player_total, win_score):
         while True:
             points = dice.roll()
-            # print(f"Computer got {points}")
             print(self.get_picto_dice(points))
             sleep(1)
             if points == 1 or not bot.roll_again(
