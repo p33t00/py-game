@@ -1,5 +1,0 @@
-1. Create Make file (if needed)
-
-2. Make a script that will combine coverage of pytest and unittest
-
-3. Should we check if argument passed into a function has appropriate appropriate type ?

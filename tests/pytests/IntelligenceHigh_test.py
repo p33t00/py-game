@@ -4,13 +4,17 @@ import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
-from IntelligenceHigh import IntelligenceHigh
 from constants import WINNER_SCORE
+from Intelligence import Intelligence
+from IntelligenceHigh import IntelligenceHigh
 
 
 class TestIntelligenceHigh:
+    def test_is_intelligence_cls(self):
+        assert issubclass(IntelligenceHigh, Intelligence)
 
     """player_score, bot_score, turn_total_score, turn_roll_num"""
+
     @pytest.mark.parametrize(
         "should_roll_args",
         [
@@ -30,13 +34,15 @@ class TestIntelligenceHigh:
                 should_roll_args[1],
                 should_roll_args[2],
                 should_roll_args[3],
-            ) == should_roll_args[4]
+            )
+            == should_roll_args[4]
         )
 
     @pytest.mark.parametrize("participant_score", [(74, False), (94, True), (98, True)])
     def test_is_player_final_roll(self, intelligence, participant_score):
         assert (
-            intelligence.is_player_final_roll(participant_score[0]) == participant_score[1]
+            intelligence.is_player_final_roll(participant_score[0])
+            == participant_score[1]
         )
 
     """0 -> turn_total_score, 1 -> bot_score, 2 -> result"""
@@ -46,19 +52,31 @@ class TestIntelligenceHigh:
     )
     def test_is_bot_final_roll(self, intelligence, participant_score):
         assert (
-            intelligence
-            .is_bot_final_roll(participant_score[0], participant_score[1]) == participant_score[2]
+            intelligence.is_bot_final_roll(participant_score[0], participant_score[1])
+            == participant_score[2]
         )
 
     @pytest.mark.parametrize("turn_total_points", [(12, False), (17, True), (23, True)])
     def test_is_optimal_turn_score(self, intelligence, turn_total_points):
         assert (
-            intelligence.is_optimal_turn_score(turn_total_points[0]) == turn_total_points[1]
+            intelligence.is_optimal_turn_score(turn_total_points[0])
+            == turn_total_points[1]
         )
 
     @pytest.mark.parametrize("roll_result", [(1, False), (5, False), (8, True)])
     def test_is_max_turn_roll(self, intelligence, roll_result):
         assert intelligence.is_max_turn_roll(roll_result[0]) == roll_result[1]
+
+    @pytest.mark.parametrize(
+        "points",
+        [
+            (85, False),
+            (102, True),
+            (100, True),
+        ],
+    )
+    def test_is_winner_score(self, intelligence, points):
+        assert intelligence.is_winner_score(points[0]) is points[1]
 
     @pytest.fixture(autouse=True, scope="function")
     def intelligence(self):
