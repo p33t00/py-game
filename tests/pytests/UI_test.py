@@ -30,6 +30,12 @@ class TestUI:
     def test_get_intelligence_fail(self):
         '''maybe make more tests for this method'''
         assert(False)
+        
+    def test_load_picto_dice(self, ui):
+        ui.load_picto_dice()
+        pd = ui.get_picto_dice(1)
+        assert(type(pd) == str)
+        assert(len(pd) > 0)
 
     @pytest.fixture(autouse=True, scope="function")
     def ui(self):

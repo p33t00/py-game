@@ -1,7 +1,10 @@
 from cmd import Cmd
 from pathlib import Path
 import os
+from posixpath import split
 from time import sleep
+
+from pkg_resources import split_sections
 from Game import Game
 from Dice import Dice
 from Bot import Bot
@@ -16,6 +19,7 @@ class UI(Cmd):
     __bot = None
     __player = None
     __intelligence = [IntelligenceLow, IntelligenceHigh]
+    __picto_dice = ()
     # intro = Path('intro.txt').read_text()
     # intro = '''
     # ------------------------
@@ -55,7 +59,8 @@ class UI(Cmd):
         if not self.get_game():
             self.do_start(arg)
         points = self.get_dice().roll()
-        print(f"you got {points}")
+        # print(f"you got {points}")
+        print(self.get_picto_dice(points))
         if points == 1:
             self.do_stop("")
 
@@ -86,6 +91,7 @@ class UI(Cmd):
     def preloop(self) -> None:
         self.cls()
         print(Path("intro.txt").read_text())
+        self.load_picto_dice()
         sleep(2)
         self.cls()
         return super().preloop()
@@ -121,7 +127,8 @@ class UI(Cmd):
     def bot_play(self, dice, bot, player_total, win_score):
         while True:
             points = dice.roll()
-            print(f"Computer got {points}")
+            # print(f"Computer got {points}")
+            print(self.get_picto_dice(points))
             sleep(1)
             if points == 1 or not bot.roll_again(
                 player_total,
@@ -162,3 +169,12 @@ class UI(Cmd):
             else:
                 self.cls()
                 print("Invalid input. Please try again.")
+
+    def get_picto_dice(self, idx):
+        try:
+            return self.__picto_dice[idx-1]
+        except IndexError:
+            return False
+    
+    def load_picto_dice(self):
+        self.__picto_dice = Path("picto-dice.txt").read_text().split('\n\n')
