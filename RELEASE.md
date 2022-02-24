@@ -24,3 +24,12 @@ v0.2 (22-02-2022):
 - formatting code to pep8
 - end of the game implemented
 - more Intelligence for Bot logic
+
+
+v0.3 (24-02-2022):
+------------------
+    Fully functional Game
+
+- Picto-dice (visual instead of numbers)
+- Big Code refactor. Logic change in some places
+- Organizing source code and asset files
