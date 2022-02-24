@@ -4,7 +4,7 @@ import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
-from Dice import Dice
+from src.Dice import Dice
 
 
 class TestGame:

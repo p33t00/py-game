@@ -1,5 +1,5 @@
 from random import randint
-from Intelligence import Intelligence
+from src.Intelligence import Intelligence
 
 
 class IntelligenceLow(Intelligence):

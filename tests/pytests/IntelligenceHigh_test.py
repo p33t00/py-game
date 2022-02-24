@@ -5,8 +5,8 @@ import pytest
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
 from constants import WINNER_SCORE
-from Intelligence import Intelligence
-from IntelligenceHigh import IntelligenceHigh
+from src.Intelligence import Intelligence
+from src.IntelligenceHigh import IntelligenceHigh
 
 
 class TestIntelligenceHigh:

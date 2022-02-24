@@ -2,14 +2,14 @@ from cmd import Cmd
 import os
 from time import sleep
 from typing import Callable
-from GUIHelper import GUIHelper
+from lib.GUIHelper import GUIHelper
 
-from Game import Game
-from Dice import Dice
-from Bot import Bot
-from IntelligenceHigh import IntelligenceHigh
-from Player import Player
-from IntelligenceLow import IntelligenceLow
+from src.Game import Game
+from src.Dice import Dice
+from src.Bot import Bot
+from src.IntelligenceHigh import IntelligenceHigh
+from src.Player import Player
+from src.IntelligenceLow import IntelligenceLow
 
 
 class UI(Cmd):
@@ -168,7 +168,7 @@ class UI(Cmd):
                 print("Invalid index. Please try again: ")
 
         self.__bot = Bot("Computer", intelligence)
-    
+
     def reset_bot(self):
         self.__bot = None
 

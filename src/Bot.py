@@ -1,8 +1,8 @@
 from time import sleep
 from typing import Callable
-from Dice import Dice
-from Participant import Participant
-from GUIHelper import GUIHelper
+from src.Dice import Dice
+from src.Participant import Participant
+from lib.GUIHelper import GUIHelper
 
 
 class Bot(Participant):

@@ -1,4 +1,4 @@
-from Intelligence import Intelligence
+from src.Intelligence import Intelligence
 
 
 class IntelligenceHigh(Intelligence):
