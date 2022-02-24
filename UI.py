@@ -1,8 +1,8 @@
 from cmd import Cmd
-from pathlib import Path
 import os
 from time import sleep
 from typing import Callable
+from GUIHelper import GUIHelper
 
 from Game import Game
 from Dice import Dice
@@ -13,12 +13,12 @@ from IntelligenceLow import IntelligenceLow
 
 
 class UI(Cmd):
+    __gui_helper = GUIHelper()
     __game = None
     __dice = None
     __bot = None
     __player = None
     __intelligence = [IntelligenceLow, IntelligenceHigh]
-    __picto_dice = ()
     # intro = Path('intro.txt').read_text()
     # intro = '''
     # ------------------------
@@ -35,9 +35,8 @@ class UI(Cmd):
 
     # ruler = '='
 
-    # TODO: make restart game
     def do_start(self, arg):
-        "Initializing the game"
+        """Initializing the game"""
         self.__game = Game()
         self.__dice = Dice()
 
@@ -58,8 +57,9 @@ class UI(Cmd):
         self.game_init_check(lambda: self.do_start(arg))
 
     def do_reset_bot(self, arg):
-        """Reseting Bot intelligence"""
-        self.game_init_check(self.init_bot)
+        """Reseting Bot"""
+        self.reset_bot()
+        self.do_start(arg)
 
     def do_roll(self, arg):
         """Rolling dice"""
@@ -83,8 +83,7 @@ class UI(Cmd):
     def preloop(self) -> None:
         """Initializing game app"""
         self.cls()
-        print(Path("intro.txt").read_text())
-        self.load_picto_dice()
+        print(self.get_ghelper().get_intro())
         sleep(2)
         self.cls()
         return super().preloop()
@@ -110,9 +109,13 @@ class UI(Cmd):
         """Player getter"""
         return self.__player
 
+    def get_ghelper(self):
+        """GUIHelper getter"""
+        return self.__gui_helper
+
     def get_intelligence(
         self, idx: int, win_score: int
-    ) -> IntelligenceHigh or IntelligenceLow:
+    ) -> IntelligenceHigh or IntelligenceLow or False:
         """Get intalligence by index"""
         try:
             id = int(idx) - 1
@@ -121,12 +124,14 @@ class UI(Cmd):
             return False
 
     def roll(self):
+        """Roll action handler"""
         points = self.get_dice().roll()
-        print(self.get_picto_dice(points))
+        print(self.get_ghelper().get_picto_dice(points))
         if points == 1:
             self.do_stop("")
 
     def stop(self):
+        """Stop action hanlder"""
         dice = self.get_dice()
         player = self.get_player()
         bot = self.get_bot()
@@ -135,8 +140,11 @@ class UI(Cmd):
 
         # Stopping the turn and pass it to next player
         print("Now it's Computer turn to roll...")
-        self.bot_play(
-            dice, bot, player.get_total_points(), self.get_game().get_winner_score()
+        bot.play(
+            dice,
+            player.get_total_points(),
+            self.get_game().get_winner_score(),
+            self.get_ghelper().get_picto_dice,
         )
         self.finalize_turn(bot, dice)
 
@@ -148,6 +156,7 @@ class UI(Cmd):
             print("Please start the game first")
 
     def init_bot(self):
+        """Initialize Computer player"""
         print("Select Bot intelligence level:", "1. Low", "2. High", sep="\n", end="\n")
         while True:
             intelligence = self.get_intelligence(
@@ -159,63 +168,23 @@ class UI(Cmd):
                 print("Invalid index. Please try again: ")
 
         self.__bot = Bot("Computer", intelligence)
-
-    # refactor method args and usage
-    def bot_play(self, dice, bot, player_total, win_score):
-        """Bot playing its\' turn"""
-        while True:
-            points = dice.roll()
-            print(self.get_picto_dice(points))
-            sleep(1)
-            if points == 1 or not bot.roll_again(
-                player_total,
-                bot.get_total_points(),
-                dice.get_turn_total_score(),
-                win_score,
-            ):
-                break
+    
+    def reset_bot(self):
+        self.__bot = None
 
     def finalize_turn(self, participant, dice):
-        self.print_new_total(
-            participant.get_name,
-            participant.get_total_points() + dice.get_turn_total_score(),
-        )
+        """Finalize participant turn and display results"""
+        new_total = participant.get_total_points() + dice.get_turn_total_score()
+        print(f"{participant.get_name()} total score is {new_total}")
+
         self.process_turn_result(self.get_game(), dice, participant)
 
     def process_turn_result(self, game, dice, participant):
-        """Functionality to finalize participant\'s turn"""
+        """Processing and saving turn results"""
         if dice.get_turn_total_score() != 0:
             participant.add_points(dice.get_turn_total_score())
             dice.reset_turn()
             if game.has_won(participant.get_total_points()):
                 self.cls()
                 print(f"{participant.get_name()} is the winner !!!\n")
-                self.play_again()
-
-    def play_again(self):
-        """Asks if player wants to play again"""
-        while True:
-            resp = input("Play again ?\n (y/n):\n")
-            if resp == "y":
-                self.do_start(None)
-                break
-            elif resp == "n":
-                self.do_exit(None)
-                break
-            else:
-                self.cls()
-                print("Invalid input. Please try again.")
-
-    def print_new_total(self, participant_name, total_score):
-        print(f"{participant_name()} total score is {total_score}")
-
-    def get_picto_dice(self, idx):
-        """Returns visual representation of dice in plain text"""
-        try:
-            return self.__picto_dice[idx - 1]
-        except IndexError:
-            return False
-
-    def load_picto_dice(self):
-        """Loads visual representation of dice"""
-        self.__picto_dice = Path("picto-dice.txt").read_text().split("\n\n")
+                self.get_ghelper().play_again(self.do_start, self.do_exit, self.cls)

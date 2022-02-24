@@ -2,18 +2,17 @@ from Intelligence import Intelligence
 
 
 class IntelligenceHigh(Intelligence):
-    __optimal_turn_score = 15
+    __optimal_turn_score = 14
     __max_turn_roll = 5
 
     __almost_win_score = 0
 
     def __init__(self, winner_score):
         super().__init__(winner_score)
-        # self.winner_score = winner_score
-        self.almost_win_score = winner_score - 10
+        self.__almost_win_score = winner_score - 10
 
     def get_almost_win_score(self) -> int:
-        return self.almost_win_score
+        return self.__almost_win_score
 
     def get_optimal_turn_score(self):
         return self.__optimal_turn_score
@@ -29,7 +28,7 @@ class IntelligenceHigh(Intelligence):
             return False
 
         return (
-            self.is_player_final_roll(player_score)
+            self.is_player_final_roll(player_score)  # start to apply from 80
             or self.is_bot_final_roll(turn_total_score, bot_score)
             or not self.is_max_turn_roll(turn_roll_num)
             or not self.is_optimal_turn_score(turn_total_score)

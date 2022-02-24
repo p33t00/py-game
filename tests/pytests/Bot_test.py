@@ -14,6 +14,9 @@ class TestBot:
         assert type(decision) == bool
         assert decision is True or decision is False
 
+    def test_play(self, bot):
+        assert False
+
     @pytest.fixture(autouse=True, scope="function")
     def bot(self):
         return Bot("Computer", IntelligenceLow(None))
