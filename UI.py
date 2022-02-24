@@ -2,6 +2,7 @@ from cmd import Cmd
 from pathlib import Path
 import os
 from time import sleep
+from typing import Callable
 
 from Game import Game
 from Dice import Dice
@@ -39,47 +40,34 @@ class UI(Cmd):
         "Initializing the game"
         self.__game = Game()
         self.__dice = Dice()
-        self.__player = Player(input("Enter your name: "))
 
-        print("Select Bot intelligence level:", "1. Low", "2. High", sep="\n", end="\n")
-        intelligence = self.get_intelligence(
-            int(input()) - 1, self.get_game().get_winner_score()
-        )
-        self.__bot = Bot("Computer", intelligence)
+        if self.get_player():
+            self.get_player().reset_total_points()
+        else:
+            self.__player = Player(input("Enter your name: "))
+
+        if self.get_bot():
+            self.get_bot().reset_total_points()
+        else:
+            self.init_bot()
 
         print("Lets Begin !")
 
-    # TODO: this method
-    def do_reset(self, arg):
-        '''Restarting the game'''
-        self.reset_game()
+    def do_restart(self, arg):
+        """Restarting the game"""
+        self.game_init_check(lambda: self.do_start(arg))
+
+    def do_reset_bot(self, arg):
+        """Reseting Bot intelligence"""
+        self.game_init_check(self.init_bot)
 
     def do_roll(self, arg):
-        '''Rolling dice'''
-        if not self.get_game():
-            self.do_start(arg)
-        points = self.get_dice().roll()
-        print(self.get_picto_dice(points))
-
-        if points == 1:
-            self.do_stop("")
+        """Rolling dice"""
+        self.game_init_check(self.roll)
 
     def do_stop(self, arg):
-        '''Stopping player turn and passing it to Bot'''
-        dice = self.get_dice()
-        player = self.get_player()
-        bot = self.get_bot()
-
-        self.finalize_turn(self.get_game(), dice, player)
-        sleep(2)
-        self.cls()
-
-        # Stopping the turn and pass it to next player
-        print("Now it's Computer turn to roll...")
-        self.bot_play(
-            dice, bot, player.get_total_points(), self.get_game().get_winner_score()
-        )
-        self.finalize_turn(self.get_game(), dice, bot)
+        """Stopping player turn and passing it to Bot"""
+        self.game_init_check(self.stop)
 
     def do_exit(self, arg) -> bool:
         """Exit game"""
@@ -89,11 +77,11 @@ class UI(Cmd):
         exit()
 
     def cls(self):
-        '''Clearing the screen'''
+        """Clearing the screen"""
         os.system("cls" if os.name == "nt" else "clear")
 
     def preloop(self) -> None:
-        '''Initializing game app'''
+        """Initializing game app"""
         self.cls()
         print(Path("intro.txt").read_text())
         self.load_picto_dice()
@@ -102,41 +90,79 @@ class UI(Cmd):
         return super().preloop()
 
     def precmd(self, line) -> any:
-        '''Run before every command'''
+        """Run before every command"""
         self.cls()
         return line
 
     def get_game(self):
-        '''Game getter'''
+        """Game getter"""
         return self.__game
 
     def get_dice(self):
-        '''Dice getter'''
+        """Dice getter"""
         return self.__dice
 
     def get_bot(self):
-        '''Bot getter'''
+        """Bot getter"""
         return self.__bot
 
     def get_player(self):
-        '''Player getter'''
+        """Player getter"""
         return self.__player
 
-    # refactor this. maybe __intelligence will not be needed
     def get_intelligence(
         self, idx: int, win_score: int
     ) -> IntelligenceHigh or IntelligenceLow:
-        '''Get intalligence by index'''
+        """Get intalligence by index"""
         try:
-            return self.__intelligence[idx](win_score)
-        except IndexError:
-            return self.get_intelligence(
-                int(input("Invalid index. Please try again: ")) - 1, win_score
+            id = int(idx) - 1
+            return self.__intelligence[id](win_score)
+        except (ValueError, IndexError):
+            return False
+
+    def roll(self):
+        points = self.get_dice().roll()
+        print(self.get_picto_dice(points))
+        if points == 1:
+            self.do_stop("")
+
+    def stop(self):
+        dice = self.get_dice()
+        player = self.get_player()
+        bot = self.get_bot()
+
+        self.finalize_turn(player, dice)
+
+        # Stopping the turn and pass it to next player
+        print("Now it's Computer turn to roll...")
+        self.bot_play(
+            dice, bot, player.get_total_points(), self.get_game().get_winner_score()
+        )
+        self.finalize_turn(bot, dice)
+
+    def game_init_check(self, content: Callable):
+        """Wrapper for action functionality that checks if game is initialized"""
+        if self.get_game():
+            content()
+        else:
+            print("Please start the game first")
+
+    def init_bot(self):
+        print("Select Bot intelligence level:", "1. Low", "2. High", sep="\n", end="\n")
+        while True:
+            intelligence = self.get_intelligence(
+                input(), self.get_game().get_winner_score()
             )
+            if intelligence:
+                break
+            else:
+                print("Invalid index. Please try again: ")
+
+        self.__bot = Bot("Computer", intelligence)
 
     # refactor method args and usage
     def bot_play(self, dice, bot, player_total, win_score):
-        '''Bot playing its\' turn'''
+        """Bot playing its\' turn"""
         while True:
             points = dice.roll()
             print(self.get_picto_dice(points))
@@ -149,30 +175,25 @@ class UI(Cmd):
             ):
                 break
 
-    # think over this method
-    def finalize_turn(self, game, dice, participant):
-        '''Functionality to finalize participant\'s turn'''
-        new_total = participant.get_total_points() + dice.get_turn_total_score()
-        print(f"{participant.get_name()} total score is {new_total}")
+    def finalize_turn(self, participant, dice):
+        self.print_new_total(
+            participant.get_name,
+            participant.get_total_points() + dice.get_turn_total_score(),
+        )
+        self.process_turn_result(self.get_game(), dice, participant)
 
-        if dice.get_turn_total_score() == 0:
-            return
-        participant.add_points(dice.get_turn_total_score())
-        if game.has_won(participant.get_total_points()):
-            self.cls()
-            print(f"{participant.get_name()} is the winner !!!\n")
-            self.reset_game()
-        dice.reset_turn()
-
-    def reset_game(self):
-        '''Resets all scores'''
-        self.get_bot().reset_total_points()
-        self.get_player().reset_total_points()
-        self.get_dice().reset_turn()
-        self.play_again()
+    def process_turn_result(self, game, dice, participant):
+        """Functionality to finalize participant\'s turn"""
+        if dice.get_turn_total_score() != 0:
+            participant.add_points(dice.get_turn_total_score())
+            dice.reset_turn()
+            if game.has_won(participant.get_total_points()):
+                self.cls()
+                print(f"{participant.get_name()} is the winner !!!\n")
+                self.play_again()
 
     def play_again(self):
-        '''Asks if player wants to play again'''
+        """Asks if player wants to play again"""
         while True:
             resp = input("Play again ?\n (y/n):\n")
             if resp == "y":
@@ -185,13 +206,16 @@ class UI(Cmd):
                 self.cls()
                 print("Invalid input. Please try again.")
 
+    def print_new_total(self, participant_name, total_score):
+        print(f"{participant_name()} total score is {total_score}")
+
     def get_picto_dice(self, idx):
-        '''Returns visual representation of dice in plain text'''
+        """Returns visual representation of dice in plain text"""
         try:
             return self.__picto_dice[idx - 1]
         except IndexError:
             return False
 
     def load_picto_dice(self):
-        '''Loads visual representation of dice'''
+        """Loads visual representation of dice"""
         self.__picto_dice = Path("picto-dice.txt").read_text().split("\n\n")
