@@ -63,6 +63,9 @@ class UI(Cmd):
         self.__reset_bot()
         self.do_start(arg)
 
+    def do_cheat(self, arg):
+        self.__game_init_check(lambda: self.__cheat(arg))
+
     def do_roll(self, arg):  # pylint: disable=W0613
         """Rolling dice"""
         self.__game_init_check(self.__roll)
@@ -134,21 +137,32 @@ class UI(Cmd):
 
     def __stop(self):
         """Stop action hanlder"""
+        game = self.get_game()
         dice = self.get_dice()
         player = self.get_player()
         bot = self.get_bot()
 
-        self.__finalize_turn(player, dice)
+        if not self.__process_and_continue(game, player, dice):
+            return
 
         # Stopping the turn and pass it to next player
         print("Now it's Computer turn to roll...")
         bot.play(
             dice,
             player.get_total_points(),
-            self.get_game().get_winner_score(),
+            game.get_winner_score(),
             self.get_ghelper().get_picto_dice,
         )
-        self.__finalize_turn(bot, dice)
+        self.__process_and_continue(game, bot, dice)
+
+    def __cheat(self, arg):
+        try:
+            self.get_player().set_cheat_rate(int(arg))
+            print(f"Cheat x{arg} is activated :D")
+            sleep(2)
+            self.cls()
+        except TypeError:
+            print("Something went wrong. Try again with other input")
 
     def __game_init_check(self, content: Callable):
         """Wrapper for action functionality that checks if game is initialized"""
@@ -174,19 +188,20 @@ class UI(Cmd):
         """Reseting Bot participant"""
         self.__bot = None
 
-    def __finalize_turn(self, participant, dice):
-        """Finalize participant turn and display results"""
-        new_total = participant.get_total_points() + dice.get_turn_total_score()
-        print(f"{participant.get_name()} total score is {new_total}")
-
-        self.__process_turn_result(self.get_game(), dice, participant)
-
-    def __process_turn_result(self, game, dice, participant):
+    def __process_and_continue(self, game, participant, dice) -> bool:
         """Processing and saving turn results"""
-        if dice.get_turn_total_score() != 0:
-            participant.add_points(dice.get_turn_total_score())
-            dice.reset_turn()
-            if game.has_won(participant.get_total_points()):
+        participant.add_points(dice.get_turn_total_score())
+        dice.reset_turn()
+        if game.has_won(participant.get_total_points()):
+            self.cls()
+            print(f"{participant.get_name()} is the winner !!!\n")
+            if self.get_ghelper().play_again():
                 self.cls()
-                print(f"{participant.get_name()} is the winner !!!\n")
-                self.get_ghelper().play_again(self.do_start, self.do_exit, self.cls)
+                self.do_start("")
+            else:
+                self.cls()
+                self.do_exit("")
+            return False
+
+        print(f"{participant.get_name()} total score is {participant.get_total_points()}")
+        return True
