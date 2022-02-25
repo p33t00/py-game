@@ -4,7 +4,7 @@ import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
-from src.Dice import Dice
+from src.dice import Dice
 
 
 class TestGame:
@@ -30,16 +30,14 @@ class TestGame:
         assert dice.get_turn_total_score() == 15
         dice.inc_turn_total_score(6)
         assert dice.get_turn_total_score() == 21
-        
+
     def test_reset_turn_roll_num(self, dice):
         assert dice.get_turn_total_score() == 0
         dice.inc_turn_total_score(15)
-        dice.
         assert dice.get_turn_total_score() == 0
         dice.inc_turn_total_score(10)
         dice.inc_turn_total_score(8)
         assert dice.get_turn_total_score() == 0
-        
 
     @pytest.fixture(scope="function", autouse=True)
     def dice(self):

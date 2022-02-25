@@ -5,8 +5,8 @@ import pytest
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
 from constants import WINNER_SCORE
-from src.Intelligence import Intelligence
-from src.IntelligenceLow import IntelligenceLow
+from src.intelligence import Intelligence
+from src.intelligence_low import IntelligenceLow
 
 
 class TestIntelligenceLow:
@@ -19,13 +19,16 @@ class TestIntelligenceLow:
         assert type(decision) == bool
         assert decision is True or decision is False
 
-    @pytest.mark.parametrize('points', [
-        (75, False),
-        (105, True),
-        (100, True),
-    ])
+    @pytest.mark.parametrize(
+        "points",
+        [
+            (75, False),
+            (105, True),
+            (100, True),
+        ],
+    )
     def test_is_winner_score(self, intelligence, points):
-        assert (intelligence.is_winner_score(points[0]) is points[1])
+        assert intelligence.is_winner_score(points[0]) is points[1]
 
     @pytest.fixture(scope="function", autouse=True)
     def intelligence(self):

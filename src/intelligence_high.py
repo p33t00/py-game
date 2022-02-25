@@ -1,7 +1,9 @@
-from src.Intelligence import Intelligence
+"""Robot intelligence High module"""
+from src.intelligence import Intelligence
 
 
 class IntelligenceHigh(Intelligence):
+    """Bot intelligence implementation (High)"""
     __optimal_turn_score = 14
     __max_turn_roll = 5
 
@@ -12,12 +14,15 @@ class IntelligenceHigh(Intelligence):
         self.__almost_win_score = winner_score - 10
 
     def get_almost_win_score(self) -> int:
+        """win_score getter"""
         return self.__almost_win_score
 
     def get_optimal_turn_score(self):
+        """optimal_turn_score getter"""
         return self.__optimal_turn_score
 
     def get_max_turn_roll(self):
+        """max_turn_roll getter"""
         return self.__max_turn_roll
 
     def should_roll(

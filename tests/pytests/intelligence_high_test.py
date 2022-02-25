@@ -5,8 +5,8 @@ import pytest
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
 from constants import WINNER_SCORE
-from src.Intelligence import Intelligence
-from src.IntelligenceHigh import IntelligenceHigh
+from src.intelligence import Intelligence
+from src.intelligence_high import IntelligenceHigh
 
 
 class TestIntelligenceHigh:
@@ -34,15 +34,13 @@ class TestIntelligenceHigh:
                 should_roll_args[1],
                 should_roll_args[2],
                 should_roll_args[3],
-            )
-            == should_roll_args[4]
+            ) == should_roll_args[4]
         )
 
     @pytest.mark.parametrize("participant_score", [(74, False), (94, True), (98, True)])
     def test_is_player_final_roll(self, intelligence, participant_score):
         assert (
-            intelligence.is_player_final_roll(participant_score[0])
-            == participant_score[1]
+            intelligence.is_player_final_roll(participant_score[0]) == participant_score[1]
         )
 
     """0 -> turn_total_score, 1 -> bot_score, 2 -> result"""
@@ -52,15 +50,16 @@ class TestIntelligenceHigh:
     )
     def test_is_bot_final_roll(self, intelligence, participant_score):
         assert (
-            intelligence.is_bot_final_roll(participant_score[0], participant_score[1])
-            == participant_score[2]
+            intelligence.is_bot_final_roll(
+                participant_score[0],
+                participant_score[1]
+            ) == participant_score[2]
         )
 
     @pytest.mark.parametrize("turn_total_points", [(12, False), (17, True), (23, True)])
     def test_is_optimal_turn_score(self, intelligence, turn_total_points):
         assert (
-            intelligence.is_optimal_turn_score(turn_total_points[0])
-            == turn_total_points[1]
+            intelligence.is_optimal_turn_score(turn_total_points[0]) == turn_total_points[1]
         )
 
     @pytest.mark.parametrize("roll_result", [(1, False), (5, False), (8, True)])
