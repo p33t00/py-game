@@ -46,7 +46,7 @@ clean:
 	rm -f .coverage
 	rm -rf htmlcov
 	rm -f *.pyc
-	rm -rf */__pycache__
+	rm -rf */__pycache__ tests/pytests/__pycache__ tests/unittests/__pycache__
 
 clean-doc:
 	rm -rf doc
