@@ -7,10 +7,10 @@ import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
-from src.UI import UI
+from src.ui import UI
 from constants import WINNER_SCORE
-from src.IntelligenceLow import IntelligenceLow
-from src.IntelligenceHigh import IntelligenceHigh
+from src.intelligence_low import IntelligenceLow
+from src.intelligence_high import IntelligenceHigh
 
 
 class TestUI:

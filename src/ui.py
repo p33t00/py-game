@@ -1,18 +1,20 @@
+"""UI module"""
 from cmd import Cmd
 import os
 from time import sleep
 from typing import Callable
-from lib.GUIHelper import GUIHelper
+from lib.guiHelper import GUIHelper
 
-from src.Game import Game
-from src.Dice import Dice
-from src.Bot import Bot
-from src.IntelligenceHigh import IntelligenceHigh
-from src.Player import Player
-from src.IntelligenceLow import IntelligenceLow
+from src.game import Game
+from src.dice import Dice
+from src.bot import Bot
+from src.intelligence_high import IntelligenceHigh
+from src.player import Player
+from src.intelligence_low import IntelligenceLow
 
 
 class UI(Cmd):
+    """Implementation of UI actions"""
     __gui_helper = GUIHelper()
     __game = None
     __dice = None
@@ -35,7 +37,7 @@ class UI(Cmd):
 
     # ruler = '='
 
-    def do_start(self, arg):
+    def do_start(self, arg):  # pylint: disable=W0613
         """Initializing the game"""
         self.__game = Game()
         self.__dice = Dice()
@@ -48,33 +50,33 @@ class UI(Cmd):
         if self.get_bot():
             self.get_bot().reset_total_points()
         else:
-            self.init_bot()
+            self.__init_bot()
 
         print("Lets Begin !")
 
-    def do_restart(self, arg):
+    def do_restart(self, arg):  # pylint: disable=W0613
         """Restarting the game"""
-        self.game_init_check(lambda: self.do_start(arg))
+        self.__game_init_check(lambda: self.do_start(''))
 
-    def do_reset_bot(self, arg):
+    def do_reset_bot(self, arg):  # pylint: disable=W0613
         """Reseting Bot"""
-        self.reset_bot()
+        self.__reset_bot()
         self.do_start(arg)
 
-    def do_roll(self, arg):
+    def do_roll(self, arg):  # pylint: disable=W0613
         """Rolling dice"""
-        self.game_init_check(self.roll)
+        self.__game_init_check(self.__roll)
 
-    def do_stop(self, arg):
+    def do_stop(self, arg):  # pylint: disable=W0613
         """Stopping player turn and passing it to Bot"""
-        self.game_init_check(self.stop)
+        self.__game_init_check(self.__stop)
 
-    def do_exit(self, arg) -> bool:
+    def do_exit(self, arg):  # pylint: disable=W0613
         """Exit game"""
         print("Good game, see ya next time !")
         sleep(2)
         self.cls()
-        exit()
+        exit()  # pylint: disable=R1722
 
     def cls(self):
         """Clearing the screen"""
@@ -118,25 +120,25 @@ class UI(Cmd):
     ) -> IntelligenceHigh or IntelligenceLow or False:
         """Get intalligence by index"""
         try:
-            id = int(idx) - 1
-            return self.__intelligence[id](win_score)
+            decr_id = int(idx) - 1
+            return self.__intelligence[decr_id](win_score)
         except (ValueError, IndexError):
             return False
 
-    def roll(self):
+    def __roll(self):
         """Roll action handler"""
         points = self.get_dice().roll()
         print(self.get_ghelper().get_picto_dice(points))
         if points == 1:
-            self.do_stop("")
+            self.do_stop('')
 
-    def stop(self):
+    def __stop(self):
         """Stop action hanlder"""
         dice = self.get_dice()
         player = self.get_player()
         bot = self.get_bot()
 
-        self.finalize_turn(player, dice)
+        self.__finalize_turn(player, dice)
 
         # Stopping the turn and pass it to next player
         print("Now it's Computer turn to roll...")
@@ -146,16 +148,16 @@ class UI(Cmd):
             self.get_game().get_winner_score(),
             self.get_ghelper().get_picto_dice,
         )
-        self.finalize_turn(bot, dice)
+        self.__finalize_turn(bot, dice)
 
-    def game_init_check(self, content: Callable):
+    def __game_init_check(self, content: Callable):
         """Wrapper for action functionality that checks if game is initialized"""
         if self.get_game():
             content()
         else:
             print("Please start the game first")
 
-    def init_bot(self):
+    def __init_bot(self):
         """Initialize Computer player"""
         print("Select Bot intelligence level:", "1. Low", "2. High", sep="\n", end="\n")
         while True:
@@ -164,22 +166,22 @@ class UI(Cmd):
             )
             if intelligence:
                 break
-            else:
-                print("Invalid index. Please try again: ")
+            print("Invalid index. Please try again: ")
 
         self.__bot = Bot("Computer", intelligence)
 
-    def reset_bot(self):
+    def __reset_bot(self):
+        """Reseting Bot participant"""
         self.__bot = None
 
-    def finalize_turn(self, participant, dice):
+    def __finalize_turn(self, participant, dice):
         """Finalize participant turn and display results"""
         new_total = participant.get_total_points() + dice.get_turn_total_score()
         print(f"{participant.get_name()} total score is {new_total}")
 
-        self.process_turn_result(self.get_game(), dice, participant)
+        self.__process_turn_result(self.get_game(), dice, participant)
 
-    def process_turn_result(self, game, dice, participant):
+    def __process_turn_result(self, game, dice, participant):
         """Processing and saving turn results"""
         if dice.get_turn_total_score() != 0:
             participant.add_points(dice.get_turn_total_score())

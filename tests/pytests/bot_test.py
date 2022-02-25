@@ -4,8 +4,8 @@ import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
-from src.Bot import Bot
-from src.IntelligenceLow import IntelligenceLow
+from src.bot import Bot
+from src.intelligence_low import IntelligenceLow
 
 
 class TestBot:
