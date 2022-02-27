@@ -94,6 +94,13 @@ coverage:
 #	coverage run -m unittest
 #	coverage report
 
+coverage_pytest:
+	@$(call MESSAGE,$@)
+	coverage run -m pytest
+
+report:
+	coverage report
+	coverage html
 
 test: lint coverage
 
@@ -110,7 +117,6 @@ pydoc:
 pdoc:
 	rm -rf doc/pdoc
 	pdoc --html -o doc/pdoc src
-	pdoc --html -o doc/pdoc lib
 
 doc: pdoc pyreverse #pydoc sphinx
 

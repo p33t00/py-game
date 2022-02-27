@@ -33,8 +33,41 @@ This will let Player change Bot intelligence level and will restart game.
 
 
 
-### Development Environment:
-============================
+### Unit Testing
+================
+# Setup Testing env:
+1. Run ```make venv``` to install python virtual environment and get a hint on starting it.
+2. Run ```make install``` to install dev environment
+    Can Run ```make installed``` to view installed packages
+
+
+# App testing
+1. Run unit tests:
+    - (pytest): Run ```pytest```
+    - (unittests)
+
+2. Coverage statistic:
+    2.1. Run ```make coverage_pytest``` to view unit test results
+    2.2. Run ```make report``` to view unit test statistics
+    By now unit test statistics should be avilable in html format in
+        htmlcov/index.html
+
+
+# Checking code compliance
+```make pylint``` in order to run pylint.
+```make flake8``` to let flake8 check code compliance.
+```make lint``` to run both above
+
+
+
+# Generating Documentation
+```make pdoc``` will generate code documentation in doc/ directory.
+
+
+
+
+### Development Environment (detailed):
+=======================================
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
@@ -108,7 +141,6 @@ python main.py
 ```
 
 All code is stored in directory `src/`.
-Additional Libraries are stored in `lib/`.
 
 
 

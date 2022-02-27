@@ -41,3 +41,5 @@ v0.4 (00-00-0000):
 
 - Cheat functionality
 - README functionality description
+- Added Unit tests (pytest)
+- Game instructions (after intro)
