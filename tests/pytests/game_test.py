@@ -14,17 +14,27 @@ class TestGame:
         assert win_score == 100
 
     @pytest.mark.parametrize(
-        "participant_score", [(50, False), (100, True), (120, True), ]
+        "participant_score",
+        [
+            (50, False),
+            (100, True),
+            (120, True),
+        ],
     )
     def test_has_won(self, game, participant_score):
-        assert(game.has_won(participant_score[0]) == participant_score[1])
+        assert game.has_won(participant_score[0]) == participant_score[1]
 
     @pytest.mark.xfail(raises=TypeError, strict=True)
     @pytest.mark.parametrize(
-        "participant_score", ['helllo', False, True, ]
+        "participant_score",
+        [
+            "helllo",
+            False,
+            True,
+        ],
     )
     def test_has_won_fail(self, game, participant_score):
-        assert(game.has_won(participant_score[0]) == participant_score[1])
+        assert game.has_won(participant_score[0]) == participant_score[1]
 
     @pytest.fixture(scope="function")
     def game(self):

@@ -13,10 +13,10 @@ from src.intelligence_high import IntelligenceHigh
 
 
 class TestBot:
-    @pytest.mark.parametrize('execution_number', range(5))
+    @pytest.mark.parametrize("execution_number", range(5))
     def test_roll_again_iq_low(self, bot_low, execution_number):
         decision = bot_low.roll_again(0, 0, 0, 0)
-        assert(type(decision) is bool)
+        assert type(decision) is bool
 
     @pytest.mark.parametrize(
         "test_param",
@@ -32,21 +32,24 @@ class TestBot:
     )
     def test_roll_again_iq_high(self, bot_high, test_param):
         res = test_param.pop()
-        assert(bot_high.roll_again(*test_param) == res)
+        assert bot_high.roll_again(*test_param) == res
 
-    @pytest.mark.parametrize('bot, player_total', [
-        (pytest.lazy_fixture('bot_low'), 0),
-        (pytest.lazy_fixture('bot_high'), 60),
-        (pytest.lazy_fixture('bot_high'), 90),
-        (pytest.lazy_fixture('bot_high'), 100),
-        (pytest.lazy_fixture('bot_high'), 105),
-    ])
+    @pytest.mark.parametrize(
+        "bot, player_total",
+        [
+            (pytest.lazy_fixture("bot_low"), 0),
+            (pytest.lazy_fixture("bot_high"), 60),
+            (pytest.lazy_fixture("bot_high"), 90),
+            (pytest.lazy_fixture("bot_high"), 100),
+            (pytest.lazy_fixture("bot_high"), 105),
+        ],
+    )
     def test_play(self, bot, player_total, capsys):
         bot.play(Dice(), player_total, lambda x: x, 0)
         captured = capsys.readouterr().out  # '5\n2\n6\n'
-        assert(type(captured) is str)
+        assert type(captured) is str
         elements = captured.split("\n")
-        assert(len(list(filter(lambda i: i not in range(1, 7), elements))))
+        assert len(list(filter(lambda i: i not in range(1, 7), elements)))
 
     @pytest.fixture(scope="function")
     def bot_low(self):
