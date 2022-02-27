@@ -4,7 +4,7 @@ import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
-from constants import WINNER_SCORE
+from src.game import Game
 from src.intelligence import Intelligence
 from src.intelligence_high import IntelligenceHigh
 
@@ -14,73 +14,60 @@ class TestIntelligenceHigh:
         assert issubclass(IntelligenceHigh, Intelligence)
 
     """player_score, bot_score, turn_total_score, turn_roll_num"""
-
     @pytest.mark.parametrize(
         "should_roll_args",
         [
-            (0, 0, 0, 0, True),  # beginning of the game
-            (87, 91, 3, 3, True),  # bot last roll
-            (98, 81, 3, 3, True),  # player last roll
-            (87, 79, 17, 3, True),  # optimal turn score
-            (87, 79, 10, 5, True),  # max turn roll score
-            (37, 29, 26, 7, False),  # finish turn
-            (77, 87, 18, 3, False),  # winning score
+            [0, 0, 0, 0, True],  # beginning of the game
+            [87, 91, 3, 3, True],  # bot last roll
+            [98, 81, 3, 3, True],  # player last roll
+            [37, 29, 18, 3, False],  # optimal turn score
+            [87, 79, 10, 5, True],  # max turn roll score
+            [37, 29, 26, 7, False],  # finish turn
+            [77, 87, 18, 3, False],  # winning score
         ],
     )
     def test_should_roll(self, intelligence, should_roll_args):
-        assert (
-            intelligence.should_roll(
-                should_roll_args[0],
-                should_roll_args[1],
-                should_roll_args[2],
-                should_roll_args[3],
-            ) == should_roll_args[4]
-        )
+        res = should_roll_args.pop()
+        assert(intelligence.should_roll(*should_roll_args) == res)
 
-    @pytest.mark.parametrize("participant_score", [(74, False), (94, True), (98, True)])
-    def test_is_player_final_roll(self, intelligence, participant_score):
+    @pytest.mark.parametrize("participant_score, result", [(87, False), (94, True), (98, True)])
+    def test_is_player_final_turn(self, intelligence, participant_score, result):
         assert (
-            intelligence.is_player_final_roll(participant_score[0]) == participant_score[1]
+            intelligence.is_player_final_turn(participant_score) == result
         )
-
-    """0 -> turn_total_score, 1 -> bot_score, 2 -> result"""
 
     @pytest.mark.parametrize(
-        "participant_score", [(70, 4, False), (90, 4, True), (80, 18, True)]
+        "turn_total_score, bot_score, result", [(4, 70, False), (4, 90, True), (18, 80, True)]
     )
-    def test_is_bot_final_roll(self, intelligence, participant_score):
+    def test_is_bot_final_turn(self, intelligence, turn_total_score, bot_score, result):
         assert (
-            intelligence.is_bot_final_roll(
-                participant_score[0],
-                participant_score[1]
-            ) == participant_score[2]
+            intelligence.is_bot_final_turn(
+                turn_total_score,
+                bot_score
+            ) == result
         )
 
-    @pytest.mark.parametrize("turn_total_points", [(12, False), (17, True), (23, True)])
-    def test_is_optimal_turn_score(self, intelligence, turn_total_points):
+    @pytest.mark.parametrize("turn_total_points, result", [(12, False), (17, True), (23, True)])
+    def test_is_optimal_turn_score(self, intelligence, turn_total_points, result):
         assert (
-            intelligence.is_optimal_turn_score(turn_total_points[0]) == turn_total_points[1]
+            intelligence.is_optimal_turn_score(turn_total_points) == result
         )
 
-    @pytest.mark.parametrize("roll_result", [(1, False), (5, False), (8, True)])
-    def test_is_max_turn_roll(self, intelligence, roll_result):
-        assert intelligence.is_max_turn_roll(roll_result[0]) == roll_result[1]
+    @pytest.mark.parametrize("roll, result", [(1, False), (5, False), (8, True)])
+    def test_is_max_turn_roll(self, intelligence, roll, result):
+        assert intelligence.is_max_turn_roll(roll) == result
 
     @pytest.mark.parametrize(
-        "points",
+        "points, result",
         [
             (85, False),
             (102, True),
             (100, True),
         ],
     )
-    def test_is_winner_score(self, intelligence, points):
-        assert intelligence.is_winner_score(points[0]) is points[1]
+    def test_is_winner_score(self, intelligence, points,result):
+        assert intelligence.is_winner_score(points) is result
 
-    @pytest.fixture(autouse=True, scope="function")
+    @pytest.fixture(scope="function")
     def intelligence(self):
-        return IntelligenceHigh(WINNER_SCORE)
-
-    @pytest.fixture(params=[(74, False), (94, True), (98, True)])
-    def participant_score(self, request):
-        return request.param
+        return IntelligenceHigh(Game())

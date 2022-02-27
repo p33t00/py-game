@@ -1,19 +1,22 @@
 """Robot module"""
 from time import sleep
 from typing import Callable
-from lib.guiHelper import GUIHelper
 from src.dice import Dice
 from src.participant import Participant
 
 
 class Bot(Participant):
     """Robot participant implementation"""
-    __ghelper = GUIHelper()
+    __ghelper = None
     __intelect = None
 
-    def __init__(self, name, intelect):
+    def __init__(self, name, intelect, gui):
         super().__init__(name)
         self.__intelect = intelect
+        self.__ghelper = gui
+        
+    def get_intelect(self):
+        return self.__intelect
 
     def get_ghelper(self):
         """GUIHelper getter"""
@@ -27,22 +30,22 @@ class Bot(Participant):
         turn_roll_num: int,
     ):
         """Implementation of decision logic (roll or stop turn"""
-        return self.__intelect.should_roll(
+        return self.get_intelect().should_roll(
             player_score, bot_score, turn_total_score, turn_roll_num
         )
 
     def play(
-        self, dice: Dice, player_total: int, win_score: int, dice_visual: Callable
+        self, dice: Dice, player_total: int, dice_visual: Callable, delay=1
     ):
         """Bot playing its\' turn"""
         while True:
             points = dice.roll()
             print(dice_visual(points))
-            sleep(1)
+            sleep(delay)
             if points == 1 or not self.roll_again(
                 player_total,
                 self.get_total_points(),
                 dice.get_turn_total_score(),
-                win_score,
+                dice.get_turn_roll_num(),
             ):
                 break
