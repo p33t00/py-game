@@ -19,13 +19,16 @@ class TestIntelligenceLow:
         assert type(decision) == bool
         assert decision is True or decision is False
 
-    @pytest.mark.parametrize("points, result", [
-        (75, False),
-        (105, True),
-        (100, True),
-    ],)
+    @pytest.mark.parametrize(
+        "points, result",
+        [
+            (75, False),
+            (105, True),
+            (100, True),
+        ],
+    )
     def test_is_winner_score(self, intelligence, points, result):
-        assert(intelligence.is_winner_score(points) is result)
+        assert intelligence.is_winner_score(points) is result
 
     @pytest.fixture(scope="function")
     def intelligence(self):
