@@ -4,7 +4,7 @@ import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
-from lib.gui_helper import GUIHelper
+from src.gui_helper import GUIHelper
 from src.game import Game
 from src.bot import Bot
 from src.dice import Dice

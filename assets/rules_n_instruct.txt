@@ -1,0 +1,19 @@
+
+WELCOME !!!
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+|   Before playing the game, it needs to be started.
+|   Use 'start' command  to do so.
+|
+|   Rolling the dice is performed by 'roll' command after the game has began.
+|   (Hint: you can use arrow UP to pull previous command. 'roll' for example)
+|   Player can always end the turn by using 'stop' command, if haven't got 
+|   1 point on the dice.
+|
+|   After that it's computer's turn to roll the dice.
+|   Same rules apply to computer player.
+|
+|   Use 'exit' command to exit the game
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------

@@ -6,7 +6,7 @@ import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
-from lib.gui_helper import GUIHelper
+from src.gui_helper import GUIHelper
 
 
 class TestGUIHelper:
@@ -29,6 +29,9 @@ class TestGUIHelper:
     @pytest.mark.xfail(raises=IndexError)
     def test_get_picto_dice_fail(self, gui):
         gui.get_picto_dice(50)
+
+    def get_rules(self):
+        assert False
 
     @pytest.fixture(scope="function")
     def gui(self):
