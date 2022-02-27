@@ -3,7 +3,7 @@ from cmd import Cmd
 import os
 from time import sleep
 from typing import Callable
-from lib.gui_helper import GUIHelper
+from src.gui_helper import GUIHelper
 
 from src.game import Game
 from src.dice import Dice
@@ -52,6 +52,7 @@ class UI(Cmd):
         else:
             self.__init_bot()
 
+        self.cls()
         print("Lets Begin !")
 
     def do_restart(self, arg):  # pylint: disable=W0613
@@ -92,6 +93,7 @@ class UI(Cmd):
         print(self.get_ghelper().get_intro())
         sleep(2)
         self.cls()
+        print(self.get_ghelper().get_rules())
         return super().preloop()
 
     def precmd(self, line) -> any:
@@ -163,7 +165,7 @@ class UI(Cmd):
             sleep(2)
             self.cls()
         except TypeError:
-            print("Something went wrong. Try again with other input")
+            print("Something went wrong. Try again with different input")
 
     def __game_init_check(self, content: Callable):
         """Wrapper for action functionality that checks if game is initialized"""
