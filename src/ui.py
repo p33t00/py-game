@@ -3,7 +3,7 @@ from cmd import Cmd
 import os
 from time import sleep
 from typing import Callable
-from lib.guiHelper import GUIHelper
+from lib.gui_helper import GUIHelper
 
 from src.game import Game
 from src.dice import Dice
@@ -64,6 +64,7 @@ class UI(Cmd):
         self.do_start(arg)
 
     def do_cheat(self, arg):
+        """Multiplying Player's roll result by provided value"""
         self.__game_init_check(lambda: self.__cheat(arg))
 
     def do_roll(self, arg):  # pylint: disable=W0613
@@ -119,12 +120,12 @@ class UI(Cmd):
         return self.__gui_helper
 
     def get_intelligence(
-        self, idx: int, win_score: int
+        self, idx: int, game: Game
     ) -> IntelligenceHigh or IntelligenceLow or False:
         """Get intalligence by index"""
         try:
             decr_id = int(idx) - 1
-            return self.__intelligence[decr_id](win_score)
+            return self.__intelligence[decr_id](game)
         except (ValueError, IndexError):
             return False
 
@@ -150,12 +151,12 @@ class UI(Cmd):
         bot.play(
             dice,
             player.get_total_points(),
-            game.get_winner_score(),
             self.get_ghelper().get_picto_dice,
         )
         self.__process_and_continue(game, bot, dice)
 
     def __cheat(self, arg):
+        """Cheat action handler"""
         try:
             self.get_player().set_cheat_rate(int(arg))
             print(f"Cheat x{arg} is activated :D")
@@ -176,13 +177,13 @@ class UI(Cmd):
         print("Select Bot intelligence level:", "1. Low", "2. High", sep="\n", end="\n")
         while True:
             intelligence = self.get_intelligence(
-                input(), self.get_game().get_winner_score()
+                input(), self.get_game()
             )
             if intelligence:
                 break
             print("Invalid index. Please try again: ")
 
-        self.__bot = Bot("Computer", intelligence)
+        self.__bot = Bot("Computer", intelligence, self.get_ghelper())
 
     def __reset_bot(self):
         """Reseting Bot participant"""

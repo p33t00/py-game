@@ -33,6 +33,6 @@ class TestPlayer:
         player.add_points(2)
         assert(player.get_total_points() == 30)
 
-    @pytest.fixture(scope='function', autouse=True)
+    @pytest.fixture(scope='function')
     def player(self):
         return Player()

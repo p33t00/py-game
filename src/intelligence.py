@@ -4,10 +4,13 @@ from abc import ABC, abstractmethod
 
 class Intelligence(ABC):
     """Initial class for Bot intelligence"""
-    __winner_score = 0
+    __game = None
 
-    def __init__(self, win_score: int):
-        self.__winner_score = win_score
+    def __init__(self, game: int):
+        self.__game = game
+
+    def get_game(self):
+        return self.__game
 
     @abstractmethod
     def should_roll(
@@ -17,4 +20,4 @@ class Intelligence(ABC):
 
     def is_winner_score(self, score) -> int:  # pragma: no cover
         """Check if provided score reached winner score"""
-        return score >= self.__winner_score
+        return self.get_game().has_won(score)

@@ -22,8 +22,8 @@ class Dice:
             self.reset_turn()
         else:
             self.__inc_turn_total_score(points)
+            self.__inc_turn_roll_num()
 
-        self.__inc_turn_roll_num()
         return points
 
     def reset_turn(self):

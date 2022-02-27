@@ -36,6 +36,6 @@ class TestParticipant:
         participant.set_name("Lilly")
         assert participant.get_name() == "Lilly"
 
-    @pytest.fixture(autouse=True)
+    @pytest.fixture(scope="function")
     def participant(self):
         return Participant()
