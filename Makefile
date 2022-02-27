@@ -46,7 +46,7 @@ clean:
 	rm -f .coverage
 	rm -rf htmlcov
 	rm -f *.pyc
-	rm -rf */__pycache__ tests/pytests/__pycache__ tests/unittests/__pycache__
+	rm -rf */__pycache__ tests/pytests/__pycache__ tests/unittests/__pycache__ .pytest_cache
 
 clean-doc:
 	rm -rf doc
@@ -109,7 +109,8 @@ pydoc:
 
 pdoc:
 	rm -rf doc/pdoc
-	pdoc --html -o doc/pdoc .
+	pdoc --html -o doc/pdoc src
+	pdoc --html -o doc/pdoc lib
 
 doc: pdoc pyreverse #pydoc sphinx
 

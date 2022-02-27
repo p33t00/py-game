@@ -1,8 +1,42 @@
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+### Game Manual:
+================
+# Run App:
+The only requirement for running the game is python.
+Than in order to start the app, run:
+```
+python main.py
+```
+
+# Start:
+Initial command is :
+```
+start
+```
+It is used to initialize game values and setup Player and Bot
+
+Player can refer to help manual in the game by typing 'help' command.
+
+# Cheat:
+Player can set a value by which his/her roll score will be multiplied.
+```
+cheat 10
+```
+This way every time Player rolls the dice, result will be multiplied by 10
+
+# Bot (Robot):
+Intelligence of Bot is being selected on game initialization (start command)
+Also it is possible to change Bot intelect level anytime by using command:
+```
+reset_bot
+```
+This will let Player change Bot intelligence level and will restart game.
+
 
 
 ### Development Environment:
 ============================
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 
 # Check version of Python
 

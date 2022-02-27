@@ -17,4 +17,5 @@ sphinx
 
 # Unit test and coverage
 pytest
+pytest-lazy-fixture
 coverage

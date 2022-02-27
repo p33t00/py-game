@@ -64,6 +64,7 @@ class UI(Cmd):
         self.do_start(arg)
 
     def do_cheat(self, arg):
+        """Multiplying Player's roll result by provided value"""
         self.__game_init_check(lambda: self.__cheat(arg))
 
     def do_roll(self, arg):  # pylint: disable=W0613
@@ -156,6 +157,7 @@ class UI(Cmd):
         self.__process_and_continue(game, bot, dice)
 
     def __cheat(self, arg):
+        """Cheat action handler"""
         try:
             self.get_player().set_cheat_rate(int(arg))
             print(f"Cheat x{arg} is activated :D")
