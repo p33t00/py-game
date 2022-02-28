@@ -6,7 +6,7 @@ import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
 
-from src.gui_helper import GUIHelper
+from lib.gui_helper import GUIHelper
 
 
 class TestGUIHelper:

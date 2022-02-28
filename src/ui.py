@@ -3,12 +3,12 @@ from cmd import Cmd
 import os
 from time import sleep
 from typing import Callable
-from src.gui_helper import GUIHelper
+from lib.gui_helper import GUIHelper
 
 from src.game import Game
 from src.dice import Dice
 from src.bot import Bot
-from src.intelligence_factory import IntelligenceFactory
+from lib.intelligence.intelligence_factory import IntelligenceFactory
 from src.player import Player
 
 
