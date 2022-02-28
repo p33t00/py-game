@@ -8,9 +8,8 @@ from src.gui_helper import GUIHelper
 from src.game import Game
 from src.dice import Dice
 from src.bot import Bot
-from src.intelligence_high import IntelligenceHigh
+from src.intelligence_factory import IntelligenceFactory
 from src.player import Player
-from src.intelligence_low import IntelligenceLow
 
 
 class UI(Cmd):
@@ -21,7 +20,7 @@ class UI(Cmd):
     __dice = None
     __bot = None
     __player = None
-    __intelligence = [IntelligenceLow, IntelligenceHigh]
+
     # intro = Path('intro.txt').read_text()
     # intro = '''
     # ------------------------
@@ -122,16 +121,6 @@ class UI(Cmd):
         """GUIHelper getter."""
         return self.__gui_helper
 
-    def get_intelligence(
-        self, idx: int, game: Game
-    ) -> IntelligenceHigh or IntelligenceLow or False:
-        """Get intalligence by index."""
-        try:
-            decr_id = int(idx) - 1
-            return self.__intelligence[decr_id](game)
-        except (ValueError, IndexError):
-            return False
-
     def __roll(self):
         """Roll action handler."""
         points = self.get_dice().roll()
@@ -178,11 +167,17 @@ class UI(Cmd):
     def __init_bot(self):
         """Initialize Computer player."""
         print("Select Bot intelligence level:", "1. Low", "2. High", sep="\n", end="\n")
+        iq_factory = IntelligenceFactory(self.get_game())
         while True:
-            intelligence = self.get_intelligence(input(), self.get_game())
-            if intelligence:
-                break
-            print("Invalid index. Please try again: ")
+            try:
+                idx = int(input())
+                if idx not in range(1, 3):
+                    raise IndexError()
+                intelligence = iq_factory.get_intelligence(idx - 1)
+                if intelligence:
+                    break
+            except (TypeError, ValueError, IndexError):
+                print("Invalid index. Please try again: ")
 
         self.__bot = Bot("Computer", intelligence, self.get_ghelper())
 
