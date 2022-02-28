@@ -3,13 +3,14 @@ import os
 import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
+sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../../lib/intelligence/"))
 
-from src.gui_helper import GUIHelper
+from lib.gui_helper import GUIHelper
 from src.game import Game
 from src.bot import Bot
 from src.dice import Dice
-from src.intelligence_low import IntelligenceLow
-from src.intelligence_high import IntelligenceHigh
+from intelligence_low import IntelligenceLow
+from intelligence_high import IntelligenceHigh
 
 
 class TestBot:

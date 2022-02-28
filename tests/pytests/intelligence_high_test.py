@@ -3,10 +3,11 @@ import os
 import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
+sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../../lib/intelligence/"))
 
 from src.game import Game
-from src.intelligence import Intelligence
-from src.intelligence_high import IntelligenceHigh
+from intelligence import Intelligence
+from intelligence_high import IntelligenceHigh
 
 
 class TestIntelligenceHigh:

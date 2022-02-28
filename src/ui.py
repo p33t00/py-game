@@ -1,15 +1,19 @@
 """UI module."""
 from cmd import Cmd
+import sys
 import os
 from time import sleep
 from typing import Callable
-from src.gui_helper import GUIHelper
+
+sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../lib/"))
+sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../lib/intelligence/"))
 
 from src.game import Game
 from src.dice import Dice
 from src.bot import Bot
-from src.intelligence_factory import IntelligenceFactory
 from src.player import Player
+from gui_helper import GUIHelper
+from intelligence_factory import IntelligenceFactory
 
 
 class UI(Cmd):
