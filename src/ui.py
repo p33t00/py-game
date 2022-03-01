@@ -134,12 +134,11 @@ class UI(Cmd):
 
     def __stop(self):
         """Stop action hanlder."""
-        game = self.get_game()
         dice = self.get_dice()
         player = self.get_player()
         bot = self.get_bot()
 
-        if not self.__process_and_continue(game, player, dice):
+        if not self.__process_and_continue(player):
             return
 
         # Stopping the turn and pass it to next player
@@ -149,7 +148,7 @@ class UI(Cmd):
             player.get_total_points(),
             self.get_ghelper().get_picto_dice,
         )
-        self.__process_and_continue(game, bot, dice)
+        self.__process_and_continue(bot)
 
     def __cheat(self, arg):
         """Cheat action handler."""
@@ -189,22 +188,27 @@ class UI(Cmd):
         """Reset Bot participant."""
         self.__bot = None
 
-    def __process_and_continue(self, game, participant, dice) -> bool:
+    def __process_and_continue(self, participant) -> bool:
         """Process and save turn results."""
-        participant.add_points(dice.get_turn_total_score())
-        dice.reset_turn()
-        if game.has_won(participant.get_total_points()):
-            self.cls()
-            print(f"{participant.get_name()} is the winner !!!\n")
-            if self.get_ghelper().play_again():
-                self.cls()
-                self.do_start("")
-            else:
-                self.cls()
-                self.do_exit("")
+        participant.add_points(self.get_dice().get_turn_total_score())
+        self.get_dice().reset_turn()
+        if self.get_game().has_won(participant.get_total_points()):
+            self.__game_over_handler(participant)
             return False
 
         print(
             f"{participant.get_name()} total score is {participant.get_total_points()}"
         )
         return True
+
+    def __game_over_handler(self, participant):
+        ### testing this method makes no sense.
+        ### Because the logic in it is same as GUIHelper::play_again()
+        self.cls()
+        print(f"{participant.get_name()} is the winner !!!\n")
+        if self.get_ghelper().play_again():
+            self.cls()
+            self.do_start("")
+        else:
+            self.cls()
+            self.do_exit("")
