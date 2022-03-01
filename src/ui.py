@@ -4,6 +4,7 @@ import sys
 import os
 from time import sleep
 from typing import Callable
+from unicodedata import numeric
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../lib/"))
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../lib/intelligence/"))
@@ -54,7 +55,7 @@ class UI(Cmd):
         if self.get_bot():
             self.get_bot().reset_total_points()
         else:
-            self.__init_bot()
+            self.__bot = self.__get_init_bot()
 
         self.cls()
         print("Lets Begin !")
@@ -91,14 +92,14 @@ class UI(Cmd):
         """Clear the screen."""
         os.system("cls" if os.name == "nt" else "clear")
 
-    def preloop(self) -> None:
+    def preloop(self):
         """Initialize game app."""
         self.cls()
         print(self.get_ghelper().get_intro())
         sleep(2)
         self.cls()
         print(self.get_ghelper().get_rules())
-        return super().preloop()
+        # return super().preloop()
 
     def precmd(self, line) -> any:
         """Run before every command."""
@@ -167,22 +168,13 @@ class UI(Cmd):
         else:
             print("Please start the game first")
 
-    def __init_bot(self):
-        """Initialize Computer player."""
+    def __get_init_bot(self):
+        """Initialize and return Computer player."""
         print("Select Bot intelligence level:", "1. Low", "2. High", sep="\n", end="\n")
         iq_factory = IntelligenceFactory(self.get_game())
-        while True:
-            try:
-                idx = int(input())
-                if idx not in range(1, 3):
-                    raise IndexError()
-                intelligence = iq_factory.get_intelligence(idx - 1)
-                if intelligence:
-                    break
-            except (TypeError, ValueError, IndexError):
-                print("Invalid index. Please try again: ")
-
-        self.__bot = Bot("Computer", intelligence, self.get_ghelper())
+        intelligence_id = self.get_ghelper().get_intelect_id()
+        intelligence = iq_factory.get_intelligence(intelligence_id - 1)
+        return Bot("Computer", intelligence, self.get_ghelper())
 
     def __reset_bot(self):
         """Reset Bot participant."""
