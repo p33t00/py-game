@@ -158,7 +158,7 @@ class UI(Cmd):
             print(f"Cheat x{arg} is activated :D")
             sleep(2)
             self.cls()
-        except TypeError:
+        except (TypeError, ValueError):
             print("Something went wrong. Try again with different input")
 
     def __game_init_check(self, content: Callable):
@@ -194,8 +194,7 @@ class UI(Cmd):
         return True
 
     def __game_over_handler(self, participant):
-        ### testing this method makes no sense.
-        ### Because the logic in it is same as GUIHelper::play_again()
+        """Finalize the game."""
         self.cls()
         print(f"{participant.get_name()} is the winner !!!\n")
         if self.get_ghelper().play_again():
