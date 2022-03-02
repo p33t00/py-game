@@ -3,10 +3,11 @@ import os
 import pytest
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../.."))
+sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../../lib/intelligence/"))
 
 from src.game import Game
-from src.intelligence import Intelligence
-from src.intelligence_high import IntelligenceHigh
+from intelligence import Intelligence
+from intelligence_high import IntelligenceHigh
 
 
 class TestIntelligenceHigh:
@@ -22,7 +23,7 @@ class TestIntelligenceHigh:
             [87, 91, 3, 3, True],  # bot last roll
             [98, 81, 3, 3, True],  # player last roll
             [37, 29, 18, 3, False],  # optimal turn score
-            [87, 79, 10, 5, True],  # max turn roll score
+            [87, 79, 10, 6, False],  # max turn roll score
             [37, 29, 26, 7, False],  # finish turn
             [77, 87, 18, 3, False],  # winning score
         ],
