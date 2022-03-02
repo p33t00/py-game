@@ -117,7 +117,7 @@ pydoc:
 
 pdoc:
 	rm -rf doc/pdoc
-	pdoc --html -o doc/pdoc src
+	pdoc --html -o doc/pdoc src lib
 
 doc: pdoc pyreverse #pydoc sphinx
 

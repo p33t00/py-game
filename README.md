@@ -50,7 +50,8 @@ Each is executed and presents statitstics separately.
 That means, when you run pytests, unittests are not executed and not included in the stats.
 
 # Setup Testing env:
-1. Run ```make venv``` to install python virtual environment and get a hint on starting it.
+1. Run ```make venv PYTHON={your_python_command}``` to install python virtual environment and follow the 
+    instructions on the screen.
 2. Run ```make install``` to install dev environment
     Can Run ```make installed``` to view installed packages
 
