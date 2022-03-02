@@ -14,6 +14,13 @@ from intelligence_high import IntelligenceHigh
 
 
 class TestBot:
+    @pytest.mark.parametrize("bot", [
+        pytest.lazy_fixture('bot_low'),
+        pytest.lazy_fixture('bot_high'),
+    ])
+    def test_get_ghelper(self, bot):
+        assert(isinstance(bot.get_ghelper(), GUIHelper))
+
     @pytest.mark.parametrize("execution_number", range(5))
     def test_roll_again_iq_low(self, bot_low, execution_number):
         decision = bot_low.roll_again(0, 0, 0, 0)

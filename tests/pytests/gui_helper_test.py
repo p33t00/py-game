@@ -21,6 +21,17 @@ class TestGUIHelper:
         monkeypatch.setattr(builtins, "input", lambda x: answer)
         assert gui.play_again() == result
 
+    @pytest.mark.parametrize("answer", [12, "hello", "yyyy"])
+    def test_play_again_invalid_in(self, capsys, gui, answer):
+        # monkeypatch.setattr(builtins, "input", lambda x: answer)
+        sys.stdin = io.StringIO(f"{answer}\nn\n")
+        gui.play_again()
+
+        out, err = capsys.readouterr()
+
+        assert(err == "")
+        assert(out == "Play again ?\n (y/n):\nInvalid input. Please try again.\nPlay again ?\n (y/n):\n")
+
     def test_get_intelect_id(self, gui):
         sys.stdin = io.StringIO("1\n")
         idx = gui.get_intelect_id()
@@ -42,8 +53,9 @@ class TestGUIHelper:
     def test_get_picto_dice_fail(self, gui):
         gui.get_picto_dice(50)
 
-    def get_rules(self):
-        assert False
+    def test_get_rules(self, gui):
+        rules = Path("assets/rules_n_instruct.txt").read_text()
+        assert(rules == gui.get_rules())
 
     @pytest.fixture(scope="function")
     def gui(self):

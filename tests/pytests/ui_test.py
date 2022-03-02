@@ -49,11 +49,16 @@ class TestUI:
         assert ui.get_player().get_name() == "Pete"
         assert ui.get_player().get_total_points() == 0
 
+    @patch('src.participant.Participant.reset_total_points')
+    def test_do_start_initialized(self, reset_total_points_patch, ui):
+        """Trigger start again when game was already started."""
+        ui.do_start("")
+        assert(reset_total_points_patch.call_count == 2)
+
     def test_do_reset_bot(self, ui):
         assert(isinstance(ui.get_bot(), Bot))
         ui._UI__reset_bot()
         assert(ui.get_bot() is None)
-        assert False
 
     def test_get_game(self, ui):
         assert(isinstance(ui.get_game(), Game))
@@ -69,19 +74,6 @@ class TestUI:
 
     def test_get_ghelper(self, ui):
         assert(isinstance(ui.get_ghelper(), GUIHelper))
-
-    @pytest.mark.slow
-    def test_preloop(self, capsys):
-        ui = UI()
-        result = Path("assets/intro.txt").read_text("UTF8") + \
-            "\n\n" + \
-            Path("assets/rules_n_instruct.txt").read_text("UTF8")
-
-        ui.preloop()
-        out, err = capsys.readouterr()
-
-        assert(err == "")
-        assert(out == result)
 
     @pytest.mark.parametrize("points", [1, 2, 3, 4, 5, 6])
     def test_roll(self, monkeypatch, capsys, ui, points):
@@ -106,6 +98,17 @@ class TestUI:
         assert(player.get_cheat_rate() == 5)
         player.add_points(10)
         assert(player.get_total_points() == 50)
+
+    @pytest.mark.slow
+    def test_cheat_invalid_in(self, capsys, ui):
+        ui._UI__cheat("Hello")
+        out, err = capsys.readouterr()
+        msg = "Something went wrong. Try again with different input"
+        # getting only necessary part from message
+        parsed_out = out[-1 * len(msg) - 1:].strip()
+
+        assert(err == "")
+        assert(parsed_out == msg)
 
     @patch('src.ui.UI._UI__roll')
     def test_game_init_check_true(self, roll_mock, monkeypatch, ui):
@@ -135,6 +138,14 @@ class TestUI:
         ui._UI__reset_bot()
         assert(ui.get_bot() is None)
 
+    @patch("src.bot.Bot.play")
+    @patch("src.ui.UI._UI__process_and_continue")
+    @pytest.mark.parametrize("return_val, call_cnt", [(True, 2), (False, 1)])
+    def test_stop(self, process_n_continue, play, return_val, call_cnt, ui):
+        process_n_continue.return_value = return_val
+        ui._UI__stop()
+        assert(process_n_continue.call_count == call_cnt)
+
     @pytest.mark.parametrize("player_total, result", [(90, False), (80, True)])
     def test_process_and_continue(self, monkeypatch, ui, player_total, result):
         monkeypatch.setattr(UI, "_UI__game_over_handler", lambda x, i: x)
@@ -149,6 +160,19 @@ class TestUI:
         assert(dice.get_turn_total_score() == 0)
         assert(player.get_total_points() == (player_total + 12))
         assert(res == result)
+
+    @patch("src.ui.UI.do_start")
+    @patch("src.ui.UI.do_exit")
+    @patch("gui_helper.GUIHelper.play_again")
+    @pytest.mark.parametrize("pa_value", (True, False))
+    def test_game_over_handler(self, play_again, do_exit, do_start, ui, pa_value):
+        play_again.return_value = pa_value
+        ui._UI__game_over_handler(Player())
+
+        if pa_value:
+            do_start.assert_called()
+        else:
+            do_exit.assert_called()
 
     @pytest.fixture(scope="function")
     def ui(self):
