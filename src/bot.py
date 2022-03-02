@@ -12,6 +12,7 @@ class Bot(Participant):
     __intelect = None
 
     def __init__(self, name, intelect, gui):
+        """Initialize class instance variables."""
         super().__init__(name)
         self.__intelect = intelect
         self.__ghelper = gui
@@ -21,7 +22,7 @@ class Bot(Participant):
         return self.__intelect
 
     def get_ghelper(self):
-        """GUIHelper getter."""
+        """Get GUIHelper."""
         return self.__ghelper
 
     def roll_again(

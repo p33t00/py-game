@@ -8,6 +8,7 @@ class Participant:
     _name = ""
 
     def __init__(self, name="default"):
+        """Initialize instance variables."""
         self._name = name
 
     def get_total_points(self):

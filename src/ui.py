@@ -8,13 +8,13 @@ from typing import Callable
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../lib/"))
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../lib/intelligence/"))
 
+from gui_helper import GUIHelper
+from intelligence_factory import IntelligenceFactory
 from src.game import Game
 from src.dice import Dice
 from src.bot import Bot
 from src.player import Player
 from src.highScore import HighScore
-from gui_helper import GUIHelper
-from intelligence_factory import IntelligenceFactory
 
 
 class UI(Cmd):
@@ -26,21 +26,8 @@ class UI(Cmd):
     __bot = None
     __player = None
 
-    # intro = Path('intro.txt').read_text()
-    # intro = '''
-    # ------------------------
-    # | Welcome... PIGGY !!! |
-    # ------------------------
-    # '''
-
     prompt = "<(PiG)> "
     file = None
-    # doc_header = 'doc_header'
-    # misc_header = 'misc_header'
-    # undoc_header = 'undoc_header'
-    # identchars = '123456789'
-
-    # ruler = '='
 
     def do_start(self, arg):  # pylint: disable=W0613
         """Initialize the game."""
@@ -123,7 +110,7 @@ class UI(Cmd):
         return self.__player
 
     def get_ghelper(self):
-        """GUIHelper getter."""
+        """Get GUIHelper."""
         return self.__gui_helper
 
     def __roll(self):
@@ -207,5 +194,9 @@ class UI(Cmd):
 
     def scoreboard(self):
         """Store all scores and display top 5."""
-        HighScore.store_score_in_dict(HighScore, self.__player.get_name(), self.__player.get_total_points())
+        HighScore.store_score_in_dict(
+            HighScore,
+            self.__player.get_name(),
+            self.__player.get_total_points()
+        )
         HighScore.display_scoreboard(HighScore)
