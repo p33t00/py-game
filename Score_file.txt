@@ -1,0 +1,7 @@
+SpearB:450
+J.One:400
+J.One:20
+jumanji:150
+demon_slayer:150
+son_goku:180
+jasmine:104

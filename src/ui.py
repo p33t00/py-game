@@ -11,6 +11,7 @@ from src.bot import Bot
 from src.intelligence_high import IntelligenceHigh
 from src.player import Player
 from src.intelligence_low import IntelligenceLow
+from src.highScore import HighScore
 
 
 class UI(Cmd):
@@ -197,6 +198,8 @@ class UI(Cmd):
         if game.has_won(participant.get_total_points()):
             self.cls()
             print(f"{participant.get_name()} is the winner !!!\n")
+            print(f"You have scored {self.__player.get_total_points()} points.\n")
+            self.scoreboard()
             if self.get_ghelper().play_again():
                 self.cls()
                 self.do_start("")
@@ -209,3 +212,8 @@ class UI(Cmd):
             f"{participant.get_name()} total score is {participant.get_total_points()}"
         )
         return True
+
+    def scoreboard(self):
+        """Store all scores and display top 5"""
+        HighScore.store_score_in_dict(HighScore, self.__player.get_name(), self.__player.get_total_points())
+        HighScore.display_scoreboard(HighScore)
