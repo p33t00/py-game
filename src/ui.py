@@ -14,7 +14,7 @@ from src.game import Game
 from src.dice import Dice
 from src.bot import Bot
 from src.player import Player
-from src.highScore import HighScore
+from src.high_score import HighScore
 
 
 class UI(Cmd):
@@ -194,9 +194,11 @@ class UI(Cmd):
 
     def scoreboard(self):
         """Store all scores and display top 5."""
-        HighScore.store_score_in_dict(
+        score_dict = HighScore.store_score_in_dict(
             HighScore,
             self.__player.get_name(),
             self.__player.get_total_points()
         )
-        HighScore.display_scoreboard(HighScore)
+        HighScore.store_score_dict_in_file(HighScore, score_dict)
+        collect = HighScore.collect_all_players_and_scores(HighScore)
+        HighScore.display_scoreboard(HighScore, collect)
