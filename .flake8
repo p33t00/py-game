@@ -1,5 +1,5 @@
 [flake8]
-exclude = .git __pycache__ tests/pytests/__pycache__ .venv
+exclude = .git __pycache__ tests/pytests/ .venv
 max-complexity = 9
 max-line-length = 100
 

@@ -62,6 +62,8 @@ clean-all: clean clean-doc
 pylint:
 	@$(call MESSAGE,$@)
 	-cd src && $(PYTHON) -m pylint *.py
+	-cd lib && $(PYTHON) -m pylint *.py
+	-cd lib/intelligence && $(PYTHON) -m pylint *.py
 
 flake8:
 	@$(call MESSAGE,$@)
@@ -92,8 +94,6 @@ coverage:
 	coverage run -m unittest discover
 	coverage html
 	coverage report -m
-#	coverage run -m unittest
-#	coverage report
 
 coverage_pytest:
 	@$(call MESSAGE,$@)

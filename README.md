@@ -8,13 +8,18 @@ python main.py
 ```
 
 # Start:
-Initial command is :
-```
-start
-```
+Initial command is ```start```
 It is used to initialize game values and setup Player and Bot
 
+```restart``` is used to restart game scores.
+
 Player can refer to help manual in the game by typing 'help' command.
+
+
+# Roll/Stop:
+Player shall roll the dice by using ``` roll``` command.
+When Player decided to stop the turn and score points, ```stop``` command is used.
+
 
 # Cheat:
 Player can set a value by which his/her roll score will be multiplied.
@@ -22,6 +27,7 @@ Player can set a value by which his/her roll score will be multiplied.
 cheat 10
 ```
 This way every time Player rolls the dice, result will be multiplied by 10
+
 
 # Bot (Robot):
 Intelligence of Bot is being selected on game initialization (start command)
@@ -32,9 +38,17 @@ reset_bot
 This will let Player change Bot intelligence level and will restart game.
 
 
+# Exit:
+In order to exit the game, ```exit``` command can be used.
+
+
 
 ### Unit Testing
 ================
+Our project uses unittests and pytests to cover different functionality.
+Each is executed and presents statitstics separately.
+That means, when you run pytests, unittests are not executed and not included in the stats.
+
 # Setup Testing env:
 1. Run ```make venv``` to install python virtual environment and get a hint on starting it.
 2. Run ```make install``` to install dev environment
@@ -45,6 +59,7 @@ This will let Player change Bot intelligence level and will restart game.
 1. Run unit tests:
     - (pytest): Run ```pytest```
     - (unittests)
+
 
 2. Coverage statistic:
     2.1. Run ```make coverage_pytest``` to view unit test results
