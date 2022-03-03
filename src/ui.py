@@ -56,6 +56,17 @@ class UI(Cmd):
         self.__reset_bot()
         self.do_start(arg)
 
+    def do_c(self, arg):
+        """To change current player name."""
+        old_name = self.__player.get_name()
+        print(f"Your current player name is {old_name}.")
+        new_name = input("Enter a new name: ")
+        self.__game_init_check(lambda: self.__change_name(old_name, new_name))
+
+    def do_stats(self, arg):
+        """Display game played statistics."""
+        HighScore.display_stats(HighScore)
+
     def do_cheat(self, arg):
         """Multiplying Player's roll result by provided value."""
         self.__game_init_check(lambda: self.__cheat(arg))
@@ -148,6 +159,11 @@ class UI(Cmd):
         except (TypeError, ValueError):
             print("Something went wrong. Try again with different input")
 
+    def __change_name(self, old_name, new_name):
+        """Set the new name."""
+        self.__player.set_name(new_name)
+        HighScore.change_name_in_file(HighScore, old_name, new_name)
+
     def __game_init_check(self, content: Callable):
         """Check if game is initialized. Wrapper for UI actions."""
         if self.get_game():
@@ -200,5 +216,5 @@ class UI(Cmd):
             self.__player.get_total_points()
         )
         HighScore.store_score_dict_in_file(score_dict)
-        collect = HighScore.collect_all_players_and_scores(HighScore)
+        collect = HighScore.all_players_and_high_scores(HighScore)
         HighScore.display_scoreboard(HighScore, collect)
