@@ -49,6 +49,9 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+random.txt
+random1.txt
+random2.txt
 
 # Translations
 *.mo

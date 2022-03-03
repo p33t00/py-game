@@ -215,6 +215,6 @@ class UI(Cmd):
             self.__player.get_name(),
             self.__player.get_total_points()
         )
-        HighScore.store_score_dict_in_file(score_dict)
+        HighScore.store_score_dict_in_file(HighScore, score_dict)
         collect = HighScore.all_players_and_high_scores(HighScore)
         HighScore.display_scoreboard(HighScore, collect)

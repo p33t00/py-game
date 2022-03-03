@@ -13,11 +13,12 @@ class HighScore:
         self.score_dict[player_name] = player_score
         return self.score_dict
 
-    def store_score_dict_in_file(dict_of_each_player, filename = "Score.txt"):
+    def store_score_dict_in_file(self, dict_of_each_player, filename = "Score.txt"):
         """Store every player attempt in Score file."""
         with open(filename, "a") as file:
             for name,pts in dict_of_each_player.items():
                 file.write(f"{name}:{pts}\n")
+        return filename
 
     def all_players_and_high_scores(self, filename = "Score.txt"):
         """Collect contents the players and their scores from file."""
@@ -37,10 +38,10 @@ class HighScore:
         """Display Scoreboard."""
         print("  Name\t\tHigh Score  ")
         print("----------------------------")
-        self.sort_top_scores(high_scores, 5)
+        self.sort_top_scores(self, high_scores, 5)
         print("----------------------------")
 
-    def sort_top_scores(high_scores, top_n_score : int):
+    def sort_top_scores(self, high_scores, top_n_score : int):
         """Sort and display top_n scores."""
         for idx,(name,points) in enumerate(sorted(high_scores.items(), key = lambda x : -x[1])):
             print(f"  {name:14s}{points}")
