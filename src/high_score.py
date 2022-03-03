@@ -1,27 +1,22 @@
-# stores high score of player from a Game into a file
-# High score can be retrieved from file when needed
-# Provides functionality to change Player's name
+"""High Score module."""
 
 
 class HighScore:
     score_dict = {}
-    #filename = "Score.txt"
     temp_dict = {}
 
     def store_score_in_dict(self, player_name, player_score):
         """Store name and score of the player in a dictionary."""
         self.score_dict[player_name] = player_score
         return self.score_dict
-        #self.store_score_dict_in_file(self)
 
-    def store_score_dict_in_file(dict_of_each_player, filename="Score.txt"):
+    def store_score_dict_in_file(dict_of_each_player, filename = "Score.txt"):
         """Store every player attempt in Score file."""
         with open(filename, "a") as file:
             for name,pts in dict_of_each_player.items():
                 file.write(f"{name}:{pts}\n")
-        #self.collect_all_players_and_scores(self)
 
-    def collect_all_players_and_scores(self, filename="Score.txt"):
+    def collect_all_players_and_scores(self, filename = "Score.txt"):
         """Collect all the players and their scores from file."""
         with open(filename, "r") as read_file:
             for line in read_file:
