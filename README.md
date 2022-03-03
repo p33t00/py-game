@@ -18,7 +18,13 @@ Player can refer to help manual in the game by typing 'help' command.
 
 # Roll/Stop:
 Player shall roll the dice by using ``` roll``` command.
-When Player decided to stop the turn and score points, ```stop``` command is used.
+When Player decides to stop the turn and score points, ```stop``` command is used.
+
+
+# Player Statistics:
+Players can view their statistics anytime, using the command
+```stats```
+It will display the statistics for the Player.
 
 
 # Cheat:
@@ -27,6 +33,11 @@ Player can set a value by which his/her roll score will be multiplied.
 cheat 10
 ```
 This way every time Player rolls the dice, result will be multiplied by 10
+
+
+# Change Name:
+A Player can change their name, whenver they wish to, using ```c``` command, which will let the player to enter a new name.
+Doing this, all the tracks of their old name will be replaced with the new name.
 
 
 # Bot (Robot):
