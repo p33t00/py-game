@@ -11,14 +11,14 @@ python main.py
 Initial command is ```start```
 It is used to initialize game values and setup Player and Bot
 
-```restart``` is used to restart game scores.
+```r``` is used to restart game scores.
 
 Player can refer to help manual in the game by typing 'help' command.
 
 
 # Roll/Stop:
-Player shall roll the dice by using ``` roll``` command.
-When Player decides to stop the turn and score points, ```stop``` command is used.
+Player shall roll the dice by using ``` z``` command.
+When Player decides to stop the turn and score points, ```x``` command is used.
 
 
 # Player Statistics:
@@ -44,7 +44,7 @@ Doing this, all the tracks of their old name will be replaced with the new name.
 Intelligence of Bot is being selected on game initialization (start command)
 Also it is possible to change Bot intelect level anytime by using command:
 ```
-reset_bot
+b
 ```
 This will let Player change Bot intelligence level and will restart game.
 
@@ -70,12 +70,14 @@ That means, when you run pytests, unittests are not executed and not included in
 # App testing
 1. Run unit tests:
     - (pytest): Run ```pytest```
-    - (unittests)
+    - (unittests): Run ```unittest```
 
 
 2. Coverage statistic:
-    2.1. Run ```make coverage_pytest``` to view unit test results
-    2.2. Run ```make report``` to view unit test statistics
+    2.1. Run ```make coverage_pytest``` to view pytest results
+    2.2. Run ```make coverage_unittest``` to view unittest reults
+    2.3. Run ```make coverage``` to view both pytest and unittest results
+    4.2. Run ```make report``` to view unit test statistics
     By now unit test statistics should be avilable in html format in
         htmlcov/index.html
 
@@ -89,6 +91,9 @@ That means, when you run pytests, unittests are not executed and not included in
 
 # Generating Documentation
 ```make pdoc``` will generate code documentation in doc/ directory.
+```make pyreverse``` will generate UML documentation of the code
+```make doc``` will run both pdoc and pyreverse and generate the documents.
+
 
 
 
