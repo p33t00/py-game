@@ -1,19 +1,37 @@
-
-WELCOME !!!
-
-------------------------------------------------------------------------------
-------------------------------------------------------------------------------
-|   Before playing the game, it needs to be started.
-|   Use 'start' command  to do so.
-|
-|   Rolling the dice is performed by 'roll' command after the game has began.
-|   (Hint: you can use arrow UP to pull previous command. 'roll' for example)
-|   Player can always end the turn by using 'stop' command, if haven't got 
-|   1 point on the dice.
-|
-|   After that it's computer's turn to roll the dice.
-|   Same rules apply to computer player.
-|
-|   Use 'exit' command to exit the game
-------------------------------------------------------------------------------
-------------------------------------------------------------------------------
+ ______________________________________________________________________________________________
+|                                                                                              |
+|                                WELCOME TO 'THE PIG GAME'                                     |
+|    -------------------------------------------------------------------------------------     |
+|    A game of highstakes. The more chances you take, the more scores you gain. But beware,    |
+|    1 mistake can leave you pointless. The Player will be put against the AI to see who       |
+|    emerges victorious.                                                                       |
+|                                                                                              |
+|==============================================================================================|
+|                                          RULES                                               |
+|    --------------------------------------------------------------------------------------    |
+|    Each turn, a player repeatedly rolls a die until either a 1 is rolled or the player       |
+|    decides to "hold":                                                                        |
+|                                                                                              |
+|    - If the player rolls any number other than 1, it is added to their turn total and the    |
+|      player's turn continues.                                                                |
+|    - If the player rolls a 1, they score nothing and it becomes the bot's turn.              |
+|    - If a player chooses to "hold", their turn total is added to their score, and it         |
+|       becomes the bot's turn.                                                                |
+|    (If a player chooses to "cheat", their dice roll numbers are multiplied.)                 |
+|                                                                                              |
+|    The first player to score 100 or more points wins.                                        |
+|                                                                                              |
+|==============================================================================================|
+|                                       HOW TO PLAY                                            |
+|    --------------------------------------------------------------------------------------    |
+|    -> Use 'start' command to start the game.                                                 |
+|    -> 'z' command is used to roll the dice.                                                  |
+|    -> 'x' command is used to end the player turn.                                            |
+|    -> 'r' command is used to restart the game.                                               |
+|    -> 'c' command is used to change player name.                                             |
+|    -> 'b' command is used to reset bot intelligence.                                         |
+|    -> 'stats' command is used to view the statistics.                                        |
+|    -> 'cheat <n>' command is used to activate cheat mode.                                    |
+|        <n> must be an integer.                                                               |
+|    -> Use 'exit' command to exit the game.                                                   |
+|______________________________________________________________________________________________|

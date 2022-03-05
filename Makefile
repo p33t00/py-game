@@ -87,17 +87,20 @@ codestyle: black
 #
 unittest:
 	@$(call MESSAGE,$@)
-	 $(PYTHON) -m unittest discover
+	 $(PYTHON) -m unittest tests/unittests/*.py
 
-coverage:
+coverage_unittest:
 	@$(call MESSAGE,$@)
-	coverage run -m unittest discover
+	coverage run --source src.high_score -m unittest tests/unittests/*.py
 	coverage html
 	coverage report -m
 
 coverage_pytest:
 	@$(call MESSAGE,$@)
 	coverage run -m pytest
+	coverage report
+
+coverage: coverage_pytest coverage_unittest
 
 report:
 	coverage report
@@ -116,14 +119,16 @@ pydoc:
 	mv *.html doc/pydoc
 
 pdoc:
+	@$(call MESSAGE,$@)
 	rm -rf doc/pdoc
-	pdoc --html -o doc/pdoc src lib
+	pdoc --html -o doc/pdoc src/*.py lib/*.py lib/intelligence/*.py
 
 doc: pdoc pyreverse #pydoc sphinx
 
 pyreverse:
+	@$(call MESSAGE,$@)
 	install -d doc/pyreverse
-	pyreverse *.py
+	pyreverse  *.py src/*.py lib/*.py lib/intelligence/*.py
 	dot -Tpng classes.dot -o doc/pyreverse/classes.png
 	dot -Tpng packages.dot -o doc/pyreverse/packages.png
 	rm -f classes.dot packages.dot

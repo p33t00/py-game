@@ -47,23 +47,23 @@ class UI(Cmd):
         self.cls()
         print("Lets Begin !")
 
-    def do_restart(self, arg):  # pylint: disable=W0613
+    def do_r(self, arg):  # pylint: disable=W0613
         """Restarting the game."""
         self.__game_init_check(lambda: self.do_start(""))
 
-    def do_reset_bot(self, arg):  # pylint: disable=W0613
+    def do_b(self, arg):  # pylint: disable=W0613
         """Reset Bot."""
         self.__reset_bot()
         self.do_start(arg)
 
-    def do_c(self, arg):
+    def do_c(self, arg):  # pylint: disable=W0613
         """To change current player name."""
         old_name = self.__player.get_name()
         print(f"Your current player name is {old_name}.")
         new_name = input("Enter a new name: ")
         self.__game_init_check(lambda: self.__change_name(old_name, new_name))
 
-    def do_stats(self, arg):
+    def do_stats(self, arg):  # pylint: disable=W0613 disable=R0201
         """Display game played statistics."""
         HighScore.display_stats(HighScore)
 
@@ -71,11 +71,11 @@ class UI(Cmd):
         """Multiplying Player's roll result by provided value."""
         self.__game_init_check(lambda: self.__cheat(arg))
 
-    def do_roll(self, arg):  # pylint: disable=W0613
+    def do_z(self, arg):  # pylint: disable=W0613
         """Roll dice."""
         self.__game_init_check(self.__roll)
 
-    def do_stop(self, arg):  # pylint: disable=W0613
+    def do_x(self, arg):  # pylint: disable=W0613
         """Stop player turn and passing it to Bot."""
         self.__game_init_check(self.__stop)
 
@@ -129,7 +129,7 @@ class UI(Cmd):
         points = self.get_dice().roll()
         print(self.get_ghelper().get_picto_dice(points))
         if points == 1:
-            self.do_stop("")
+            self.do_x("")
 
     def __stop(self):
         """Stop action hanlder."""
@@ -211,9 +211,7 @@ class UI(Cmd):
     def scoreboard(self):
         """Store all scores and display top 5."""
         score_dict = HighScore.store_score_in_dict(
-            HighScore,
-            self.__player.get_name(),
-            self.__player.get_total_points()
+            HighScore, self.__player.get_name(), self.__player.get_total_points()
         )
         HighScore.store_score_dict_in_file(HighScore, score_dict)
         collect = HighScore.all_players_and_high_scores(HighScore)

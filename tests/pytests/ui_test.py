@@ -79,7 +79,7 @@ class TestUI:
     def test_roll(self, monkeypatch, capsys, ui, points):
         monkeypatch.setattr(GUIHelper, "get_picto_dice", lambda x, i: i)
         monkeypatch.setattr(Dice, "roll", lambda x: points)
-        monkeypatch.setattr(UI, "do_stop", lambda x, i: print("stop"))
+        monkeypatch.setattr(UI, "do_x", lambda x, i: print("stop"))
 
         ui._UI__roll()
         out, err = capsys.readouterr()
@@ -115,12 +115,12 @@ class TestUI:
         monkeypatch.setattr(UI, "_UI__get_init_bot", lambda: "Bot")
         monkeypatch.setattr(builtins, "input", lambda x: "Player1")
 
-        ui.do_roll("")
+        ui.do_z("")
         roll_mock.assert_called()
 
     def test_game_init_check_false(self, capsys):
         ui = UI()
-        ui.do_roll("")
+        ui.do_z("")
         out, err = capsys.readouterr()
 
         assert err == ""

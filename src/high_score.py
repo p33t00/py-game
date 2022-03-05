@@ -13,18 +13,25 @@ class HighScore:
         self.score_dict[player_name] = player_score
         return self.score_dict
 
-    def store_score_dict_in_file(self, dict_of_each_player, filename = "Score.txt"):
+    def store_score_dict_in_file(
+        self,
+        dict_of_each_player,
+        filename="Score.txt"
+    ):  # pylint: disable=R0201
         """Store every player attempt in Score file."""
-        with open(filename, "a") as file:
-            for name,pts in dict_of_each_player.items():
-                file.write(f"{name}:{pts}\n")
+        try:
+            with open(filename, "a") as file:  # pylint: disable=W1514
+                for name, pts in dict_of_each_player.items():
+                    file.write(f"{name}:{pts}\n")
+        except FileNotFoundError:
+            print("File cannot be found!")
         return filename
 
-    def all_players_and_high_scores(self, filename = "Score.txt"):
+    def all_players_and_high_scores(self, filename="Score.txt"):
         """Collect contents the players and their scores from file."""
-        with open(filename, "r") as read_file:
+        with open(filename, "r") as read_file:  # pylint: disable=W1514
             for line in read_file:
-                name,_,points = line.partition(":")
+                name, _, points = line.partition(":")
                 points = int(points)
                 if name and points:
                     if name in self.high_scores:
@@ -41,30 +48,40 @@ class HighScore:
         self.sort_top_scores(self, high_scores, 5)
         print("----------------------------")
 
-    def sort_top_scores(self, high_scores, top_n_score : int):
+    def sort_top_scores(self, high_scores, top_n_score: int):  # pylint: disable=R0201
         """Sort and display top_n scores."""
-        for idx,(name,points) in enumerate(sorted(high_scores.items(), key = lambda x : -x[1])):
+        for idx, (name, points) in enumerate(
+            sorted(high_scores.items(), key=lambda x: -x[1])
+        ):
             print(f"  {name:14s}{points}")
             print(" -------------------------- ")
             if top_n_score and idx == top_n_score - 1:
                 break
 
-    def change_name_in_file(self, old_name, new_name, filename = "Score.txt"):
+    def change_name_in_file(
+        self,
+        old_name,
+        new_name,
+        filename="Score.txt"
+    ):  # pylint: disable=R0201
         """Change player name to new name."""
-        with open(filename, "r") as read_file:
-            data = read_file.read()
-        new_data = data.replace(old_name, new_name)
-        with open(filename, "w") as write_file:
-            write_file.write(new_data)
+        try:
+            with open(filename, "r") as read_file:  # pylint: disable=W1514
+                data = read_file.read()
+            new_data = data.replace(old_name, new_name)
+            with open(filename, "w") as write_file:  # pylint: disable=W1514
+                write_file.write(new_data)
+        except FileNotFoundError:
+            print("File cannot be found!")
         return filename
 
-    def count_played(self, filename = "Score.txt"):
-        """Number of games a player played."""
-        with open(filename, "r") as read_file:
+    def count_played(self, filename="Score.txt"):
+        """Count number of games played by the Player."""
+        with open(filename, "r") as read_file:  # pylint: disable=W1514
             content = read_file.read()
-        with open(filename, "r") as r_file:
+        with open(filename, "r") as r_file:  # pylint: disable=W1514
             for line in r_file:
-                name,_,points = line.partition(":")
+                name, _, points = line.partition(":")
                 points = int(points)
                 num = content.count(name)
                 self.played_games[name] = num
@@ -76,8 +93,8 @@ class HighScore:
         played = self.count_played(self)
         print("  Name\t\tHigh Score\tPlayed Games  ")
         print("----------------------------------------------")
-        for key,count in played.items():
-            for name,pts in max_pts.items():
+        for key, count in played.items():
+            for name, pts in max_pts.items():
                 if key == name:
                     print(f"  {name:14s}{pts:^14}{count:^14}  ")
             print(" ------------------------------------------")
