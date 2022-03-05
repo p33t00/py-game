@@ -77,7 +77,7 @@ class TestHighScore(unittest.TestCase):
             "Alluka02": 95,
             "Killua": 100,
         }
-        return_dict = self.highscore.all_players_and_high_scores("random1.txt")
+        return_dict = self.highscore.all_players_and_high_scores("random_1.txt")
         self.assertDictEqual(ex_dict, return_dict)
 
     def test_change_name_in_file(self):
@@ -92,7 +92,7 @@ class TestHighScore(unittest.TestCase):
         """Number of games played a the Player."""
         same_dict = {"vivian": 1, "Chris": 97, "Jazz": 102}
         similar_dict = {"Vivi": 106}
-        re_dict = self.highscore.count_played("random2.txt")
+        re_dict = self.highscore.count_played("random_2.txt")
         self.assertDictContainsSubset(re_dict, same_dict)
         self.assertNotEqual(similar_dict, re_dict)
 
