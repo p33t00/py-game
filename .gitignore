@@ -133,5 +133,5 @@ dmypy.json
 # tmp files
 Score.txt
 random.txt
-random_1.txt
-random_2.txt
+random1.txt
+random2.txt
