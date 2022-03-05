@@ -24,7 +24,7 @@
 |==============================================================================================|
 |                                       HOW TO PLAY                                            |
 |    --------------------------------------------------------------------------------------    |
-|    -> Use 'start' command to start the game.                                                 |
+|    -> 'start' command to start the game.                                                     |
 |    -> 'z' command is used to roll the dice.                                                  |
 |    -> 'x' command is used to end the player turn.                                            |
 |    -> 'r' command is used to restart the game.                                               |
@@ -33,5 +33,5 @@
 |    -> 'stats' command is used to view the statistics.                                        |
 |    -> 'cheat <n>' command is used to activate cheat mode.                                    |
 |        <n> must be an integer.                                                               |
-|    -> Use 'exit' command to exit the game.                                                   |
+|    -> 'exit' command to exit the game.                                                       |
 |______________________________________________________________________________________________|
