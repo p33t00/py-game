@@ -20,7 +20,7 @@ class HighScore:
     ):  # pylint: disable=R0201
         """Store every player attempt in Score file."""
         try:
-            with open(filename, "a") as file:  # pylint: disable=W1514
+            with open(filename, "a", encoding="UTF-8") as file:
                 for name, pts in dict_of_each_player.items():
                     file.write(f"{name}:{pts}\n")
         except FileNotFoundError:
@@ -29,7 +29,7 @@ class HighScore:
 
     def all_players_and_high_scores(self, filename="Score.txt"):
         """Collect contents the players and their scores from file."""
-        with open(filename, "r") as read_file:  # pylint: disable=W1514
+        with open(filename, "r", encoding="UTF-8") as read_file:
             for line in read_file:
                 name, _, points = line.partition(":")
                 points = int(points)
@@ -66,10 +66,10 @@ class HighScore:
     ):  # pylint: disable=R0201
         """Change player name to new name."""
         try:
-            with open(filename, "r") as read_file:  # pylint: disable=W1514
+            with open(filename, "r", encoding="UTF-8") as read_file:
                 data = read_file.read()
             new_data = data.replace(old_name, new_name)
-            with open(filename, "w") as write_file:  # pylint: disable=W1514
+            with open(filename, "w", encoding="UTF-8") as write_file:
                 write_file.write(new_data)
         except FileNotFoundError:
             print("File cannot be found!")
@@ -77,9 +77,9 @@ class HighScore:
 
     def count_played(self, filename="Score.txt"):
         """Count number of games played by the Player."""
-        with open(filename, "r") as read_file:  # pylint: disable=W1514
+        with open(filename, "r", encoding="UTF-8") as read_file:
             content = read_file.read()
-        with open(filename, "r") as r_file:  # pylint: disable=W1514
+        with open(filename, "r", encoding="UTF-8") as r_file:
             for line in r_file:
                 name, _, points = line.partition(":")
                 points = int(points)

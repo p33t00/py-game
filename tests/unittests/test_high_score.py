@@ -58,11 +58,11 @@ class TestHighScore(unittest.TestCase):
             "Gramaki": 67,
             "Vondeloma": 45,
         }
-        capturedOutput = io.StringIO()
-        sys.stdout = capturedOutput
+        captured_output = io.StringIO()
+        sys.stdout = captured_output
         self.highscore.sort_top_scores(hs_dict, 3)
         sys.stdout = sys.__stdout__
-        output = capturedOutput.getvalue()
+        output = captured_output.getvalue()
 
         self.assertTrue("Killua" in output)
         self.assertFalse("Vondeloma" in output)
