@@ -77,9 +77,7 @@ class TestHighScore(unittest.TestCase):
             "Alluka02": 95,
             "Killua": 100,
         }
-        dirname = os.path.dirname(__file__)
-        filename = os.path.join(dirname, "random1.txt")
-        return_dict = self.highscore.all_players_and_high_scores(filename)
+        return_dict = self.highscore.all_players_and_high_scores("random1.txt")
         self.assertDictEqual(ex_dict, return_dict)
 
     def test_change_name_in_file(self):
