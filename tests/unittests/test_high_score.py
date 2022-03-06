@@ -44,10 +44,13 @@ class TestHighScore(unittest.TestCase):
     def test_read_file_should_fail(self):
         """Fails to read file."""
         filename = "should_fail.txt"
+        player_dict = {"Foo": 60}
         with self.assertRaises(FileNotFoundError):
             self.highscore.all_players_and_high_scores(filename)
             self.highscore.change_name_in_file("my_name", "not_my_name", filename)
+            self.highscore.store_score_dict_in_file(player_dict, "should_fail.bin")
             self.highscore.count_played(filename)
+            self.highscore.change_name_in_file("Andy", "Andrew", "should_fail.bin")
 
     def test_sort_top_scores(self):
         """Displays top 3 score."""
