@@ -91,18 +91,16 @@ unittest:
 
 coverage_unittest:
 	@$(call MESSAGE,$@)
-	coverage run --source src.high_score -m unittest tests/unittests/*.py
-	coverage html
-	coverage report -m
+	coverage run -p --source src.high_score -m unittest tests/unittests/*.py
 
 coverage_pytest:
 	@$(call MESSAGE,$@)
-	coverage run -m pytest
-	coverage report
+	coverage run -p -m pytest
 
-coverage: coverage_pytest coverage_unittest
+coverage: coverage_pytest coverage_unittest report
 
 report:
+	coverage combine
 	coverage report
 	coverage html
 

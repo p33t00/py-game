@@ -68,18 +68,9 @@ That means, when you run pytests, unittests are not executed and not included in
 
 
 # App testing
-1. Run unit tests:
-    - (pytest): Run ```pytest```
-    - (unittests): Run ```unittest```
-
-
-2. Coverage statistic:
-    2.1. Run ```make coverage_pytest``` to view pytest results
-    2.2. Run ```make coverage_unittest``` to view unittest reults
-    2.3. Run ```make coverage``` to view both pytest and unittest results
-    4.2. Run ```make report``` to view unit test statistics
-    By now unit test statistics should be avilable in html format in
-        htmlcov/index.html
+```make coverage``` is used to run and view both pytest and unittest results.
+Test statistics shall be displayed on the screen and
+should be avilable in html format in htmlcov/index.html
 
 
 # Checking code compliance
