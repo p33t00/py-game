@@ -35,14 +35,15 @@ v0.3 (24-02-2022):
 - Organizing source code and asset files
 
 
-v0.4 (00-00-0000):
+v1.0 (05-03-2022):
 ------------------
-    <Title>
+    Final Project
 
 - Cheat functionality
 - README functionality description
 - Added Unit tests (pytest)
 - Added Unit tests (unittest)
 - Game instructions (after intro)
+- Simplified game controls
 - High Score functionality
 - Statistics functionality of the game
