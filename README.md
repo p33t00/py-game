@@ -1,13 +1,13 @@
-### Game Manual:
-================
-# Run App:
+# Game Manual:
+
+## Run App:
 The only requirement for running the game is python.
 Than in order to start the app, run:
 ```
 python main.py
 ```
 
-# Start:
+## Start:
 Initial command is ```start```
 It is used to initialize game values and setup Player and Bot
 
@@ -16,18 +16,18 @@ It is used to initialize game values and setup Player and Bot
 Player can refer to help manual in the game by typing 'help' command.
 
 
-# Roll/Stop:
+## Roll/Stop:
 Player shall roll the dice by using ``` z``` command.
 When Player decides to stop the turn and score points, ```x``` command is used.
 
 
-# Player Statistics:
+## Player Statistics:
 Players can view their statistics anytime, using the command
 ```stats```
 It will display the statistics for the Player.
 
 
-# Cheat:
+## Cheat:
 Player can set a value by which his/her roll score will be multiplied.
 ```
 cheat 10
@@ -35,12 +35,12 @@ cheat 10
 This way every time Player rolls the dice, result will be multiplied by 10
 
 
-# Change Name:
+## Change Name:
 A Player can change their name, whenver they wish to, using ```c``` command, which will let the player to enter a new name.
 Doing this, all the tracks of their old name will be replaced with the new name.
 
 
-# Bot (Robot):
+## Bot (Robot):
 Intelligence of Bot is being selected on game initialization (start command)
 Also it is possible to change Bot intelect level anytime by using command:
 ```
@@ -49,38 +49,38 @@ b
 This will let Player change Bot intelligence level and will restart game.
 
 
-# Exit:
+## Exit:
 In order to exit the game, ```exit``` command can be used.
 
 
 
-### Unit Testing
-================
+
+# Unit Testing
 Our project uses unittests and pytests to cover different functionality.
 Each is executed and presents statitstics separately.
 That means, when you run pytests, unittests are not executed and not included in the stats.
 
-# Setup Testing env:
+## Setup Testing env:
 1. Run ```make venv PYTHON={your_python_command}``` to install python virtual environment and follow the 
     instructions on the screen.
 2. Run ```make install``` to install dev environment
     Can Run ```make installed``` to view installed packages
 
 
-# App testing
+## App testing
 ```make coverage``` is used to run and view both pytest and unittest results.
 Test statistics shall be displayed on the screen and
 should be avilable in html format in htmlcov/index.html
 
 
-# Checking code compliance
+## Checking code compliance
 ```make pylint``` in order to run pylint.
 ```make flake8``` to let flake8 check code compliance.
 ```make lint``` to run both above
 
 
 
-# Generating Documentation
+## Generating Documentation
 ```make pdoc``` will generate code documentation in doc/ directory.
 ```make pyreverse``` will generate UML documentation of the code
 ```make doc``` will run both pdoc and pyreverse and generate the documents.
@@ -88,13 +88,41 @@ should be avilable in html format in htmlcov/index.html
 
 
 
+# Development Environment (detailed):
 
-### Development Environment (detailed):
-=======================================
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
-# Check version of Python
+### Install dot command:
+Install dot command to help generating the UML pictures from the source code structure when using pyreverse. The dot command is part of the package called graphviz and you can install it using your package manager.
+
+Windows, through the "[Chocolatey](https://chocolatey.org/)" package manager using for example PowerShell as an Administrator.
+```
+choco install graphviz
+```
+
+Mac OS, through the "[brew](https://brew.sh/)" package manager.
+```
+brew install graphviz
+```
+
+Debian (and other Linux), through your package manager.
+```
+apt install graphviz
+```
+
+After the installation is done you can check what version you got.
+```
+$ dot -V
+dot - graphviz version 2.40.1 (20161225.0304)
+```
+
+Read more on [Graphiz Project](https://graphviz.org/).
+
+Read more on [How to install "Chocolatey" on Windows](https://gitlab.com/mikael-roos/oopython/-/blob/main/public/doc/lab-environment.md#install-make-on-windows).
+
+
+## Check version of Python
 
 Check what version of Python you have. The Makefile uses `PYTHON=python` as default.
 
@@ -115,7 +143,7 @@ Read more on [GNU make](https://www.gnu.org/software/make/manual/make.html).
 
 
 
-# Python virtual environment
+## Python virtual environment
 
 Install a Python virtual environment and activate it.
 
@@ -136,7 +164,7 @@ Read more on [Python venv](https://docs.python.org/3/library/venv.html).
 
 
 
-### Install the dependencies
+## Install the dependencies
 
 Install the PIP packages that are dependencies to the project and/or the development environment. The dependencies are documented in the `requirements.txt`.
 
