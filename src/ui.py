@@ -4,10 +4,6 @@ import sys
 import os
 from time import sleep
 from typing import Callable
-
-sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../lib/"))
-sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../lib/intelligence/"))
-
 from gui_helper import GUIHelper
 from intelligence_factory import IntelligenceFactory
 from src.game import Game
@@ -15,6 +11,9 @@ from src.dice import Dice
 from src.bot import Bot
 from src.player import Player
 from src.high_score import HighScore
+
+sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../lib/"))
+sys.path.append(os.path.realpath(os.path.dirname(__file__) + "/../lib/intelligence/"))
 
 
 class UI(Cmd):

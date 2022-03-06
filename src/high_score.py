@@ -4,7 +4,7 @@
 class HighScore:
     """HighScore implementation."""
 
-    def store_score_in_dict(self, player_name, player_score):
+    def store_score_in_dict(self, player_name, player_score):  # pylint: disable=R0201
         """Store name and score of the player in a dictionary."""
         score_dict = {}
         score_dict[player_name] = player_score
@@ -21,7 +21,7 @@ class HighScore:
                 file.write(f"{name}:{pts}\n")
         return filename
 
-    def all_players_and_high_scores(self, filename="Score.txt"):
+    def all_players_and_high_scores(self, filename="Score.txt"):  # pylint: disable=R0201
         """Collect contents the players and their scores from file."""
         high_scores = {}
         with open(filename, "r", encoding="UTF-8") as read_file:
@@ -67,7 +67,7 @@ class HighScore:
             write_file.write(new_data)
         return filename
 
-    def count_played(self, filename="Score.txt"):
+    def count_played(self, filename="Score.txt"):  # pylint: disable=R0201
         """Count number of games played by the Player."""
         played_games = {}
         with open(filename, "r", encoding="UTF-8") as read_file:
