@@ -96,7 +96,8 @@ class TestHighScore(unittest.TestCase):
         same_dict = {"vivian": 1, "Chris": 97, "Jazz": 102}
         similar_dict = {"Vivi": 106}
         re_dict = self.highscore.count_played("random2.txt")
-        self.assertDictContainsSubset(re_dict, same_dict)
+        if re_dict.items() in same_dict.items():
+            self.assertDictContainsSubset(re_dict, same_dict)
         self.assertNotEqual(similar_dict, re_dict)
 
 
